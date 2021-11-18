@@ -56,8 +56,16 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
         List<Test> tests = testDAO.findAll();
-        req.setAttribute("AllTests", tests);
 
+
+
+        if(req.getParameter("subject") !=null && req.getParameter("subject") !=""){
+            String subject = req.getParameter("subject");
+            tests = testDAO.findAllBySubject(subject);
+        } else {
+            tests = testDAO.findAll();
+        }
+        req.setAttribute("AllTests", tests);
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        Optional<Customer> customer = customerDAO.find(id);
 //        req.setAttribute("customer", customer);

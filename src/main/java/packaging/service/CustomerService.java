@@ -125,8 +125,8 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public Optional<Customer> findByLogin(String login) {
-        return Optional.empty();
+    public List<Customer> findAllByLogin(String login) {
+        return null;
     }
 
     @Override

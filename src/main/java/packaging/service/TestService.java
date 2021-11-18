@@ -14,6 +14,7 @@ import java.util.Optional;
 public class TestService implements TestDAO {
 
     private final String SQL_SELECT_ALL = "SELECT * FROM testsone";
+    private final String SQL_SELECT_ALL_BY_SUBJECT = "SELECT * FROM testsone WHERE subject = ?";
     private final String SQL_INSERT_INTO = "INSERT INTO testsone (subject, question1, question2, question3, time, degree, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private Connection connection;
@@ -83,7 +84,23 @@ public class TestService implements TestDAO {
     }
 
     @Override
-    public Optional<Test> findBySubject(String subject) {
-        return Optional.empty();
+    public List<Test> findAllBySubject(String subject) {
+        try {
+            List<Test> tests = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_BY_SUBJECT);
+            statement.setString(1, subject);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String sub = resultSet.getString("subject");
+                if (sub.equals(subject)) {
+                    Test test = new Test(sub);
+                    tests.add(test);
+                }
+            }
+            return tests;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

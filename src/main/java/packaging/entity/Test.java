@@ -14,6 +14,10 @@ public class Test {
     public Test() {
     }
 
+    public Test(String subject) {
+        this.subject = subject;
+    }
+
     public Test(Integer id, String subject, String question1, String question2,
                 String question3, String time, Degree degree) {
         this.id = id;

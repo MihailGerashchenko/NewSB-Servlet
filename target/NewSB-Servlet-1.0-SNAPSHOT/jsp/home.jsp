@@ -65,15 +65,14 @@
     <div class="container">
         <div style="height: auto; margin:auto 3%;text-align:center">
             <nav class="navbar navbar-light bg-light">
-<%--                <div class="container-fluid">--%>
-<%--                    <a class="navbar-brand"><spring:message code="messages.searchbysubject"/></a>--%>
-<%--                    <form method="get" action="/" class="d-flex">--%>
-<%--                        <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search"--%>
-<%--                               name="filter" value="${filter}">--%>
-<%--                        <button class="btn btn-outline-success" type="submit"><spring:message--%>
-<%--                                code="messages.buttonsearch"/></button>--%>
-<%--                    </form>--%>
-<%--                </div>--%>
+                <div class="container-fluid">
+                    <a class="navbar-brand"></a>
+                    <form method="get" action="/home" class="d-flex">
+                        <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
+                               name="subject" id="subject">
+                        <button class="btn btn-outline-success" type="submit"></button>
+                    </form>
+                </div>
 
 
 <%--                <nav aria-label="Page navigation">--%>
