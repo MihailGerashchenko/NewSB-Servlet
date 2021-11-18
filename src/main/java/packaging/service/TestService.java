@@ -89,11 +89,19 @@ public class TestService implements TestDAO {
             List<Test> tests = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_BY_SUBJECT);
             statement.setString(1, subject);
+
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
                 String sub = resultSet.getString("subject");
+                String question1 = resultSet.getString("question1");
+                String question2 = resultSet.getString("question2");
+                String question3 = resultSet.getString("question3");
+                String time = resultSet.getString("time");
+                Degree degree = Degree.valueOf(resultSet.getString("degree"));
+
                 if (sub.equals(subject)) {
-                    Test test = new Test(sub);
+                    Test test = new Test(id, sub, question1, question2, question3, time, degree);
                     tests.add(test);
                 }
             }
