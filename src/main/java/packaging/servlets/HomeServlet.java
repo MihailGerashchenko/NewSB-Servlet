@@ -1,8 +1,11 @@
 package packaging.servlets;
 
 import packaging.DAO.CustomerDAO;
+import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
+import packaging.entity.Test;
 import packaging.service.CustomerService;
+import packaging.service.TestService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +19,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -25,6 +29,8 @@ public class HomeServlet extends HttpServlet {
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
+    private TestDAO testDAO;
+    private TestService testService;
 
     @Override
     public void init() throws ServletException {
@@ -48,6 +54,13 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.testDAO = new TestService(connection);
+        List<Test> tests = testDAO.findAll();
+        req.setAttribute("AllTests", tests);
+
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Optional<Customer> customer = customerDAO.find(id);
+//        req.setAttribute("customer", customer);
         req.getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        Optional<Customer> customer = customerDAO.find(id);
@@ -63,7 +76,7 @@ public class HomeServlet extends HttpServlet {
 //        String color = req.getParameter("color");
 //        Cookie colorCookie = new Cookie("color", color);
 //        resp.addCookie(colorCookie);
-        resp.sendRedirect(req.getContextPath() + "/home");
+
 
 //        String email = req.getParameter("email");
 //        String phone = req.getParameter("phone");
@@ -73,5 +86,6 @@ public class HomeServlet extends HttpServlet {
 //        Customer customer = new Customer(id, email, phone, address);
 //        this.customerDAO = new CustomerService(connection);
 //        customerDAO.update(customer);
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

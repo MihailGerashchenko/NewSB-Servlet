@@ -2,7 +2,7 @@ package packaging.entity;
 
 public class Test {
 
-    private Long id;
+    private Integer id;
     private String subject;
     private String question1;
     private String question2;
@@ -12,6 +12,17 @@ public class Test {
     private Customer customer;
 
     public Test() {
+    }
+
+    public Test(Integer id, String subject, String question1, String question2,
+                String question3, String time, Degree degree) {
+        this.id = id;
+        this.subject = subject;
+        this.question1 = question1;
+        this.question2 = question2;
+        this.question3 = question3;
+        this.time = time;
+        this.degree = degree;
     }
 
     public Test(String subject, String question1, String question2,
@@ -24,11 +35,11 @@ public class Test {
         this.degree = degree;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

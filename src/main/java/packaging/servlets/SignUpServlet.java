@@ -4,6 +4,7 @@ import packaging.DAO.CustomerDAO;
 import packaging.entity.Customer;
 import packaging.entity.UserRole;
 import packaging.service.CustomerService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,11 +22,10 @@ import java.util.Properties;
 @WebServlet("/signUp")
 public class SignUpServlet extends HttpServlet {
 
-//    private UsersRepository usersRepository;
+    //    private UsersRepository usersRepository;
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
-
 
 
     @Override
@@ -61,6 +61,8 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.customerDAO = new CustomerService(connection);
+
         String name = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
@@ -68,7 +70,6 @@ public class SignUpServlet extends HttpServlet {
         String address = req.getParameter("address");
 
         Customer customer = new Customer(name, password, UserRole.STUDENT, email, phone, address);
-        this.customerDAO = new CustomerService(connection);
         customerDAO.save(customer);
 
 //        try {
