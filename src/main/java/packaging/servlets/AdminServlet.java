@@ -1,8 +1,12 @@
 package packaging.servlets;
 
 import packaging.DAO.CustomerDAO;
+import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
+import packaging.entity.Degree;
+import packaging.entity.Test;
 import packaging.service.CustomerService;
+import packaging.service.TestService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,15 +19,18 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Optional;
+import java.util.List;
 import java.util.Properties;
 
-@WebServlet("/updateStudent")
-public class UpdateServlet extends HttpServlet {
+
+@WebServlet("/admin")
+public class AdminServlet extends HttpServlet {
 
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
+    private TestDAO testDAO;
+    private TestService testService;
 
     @Override
     public void init() throws ServletException {
@@ -48,23 +55,35 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        Customer customer = customerDAO.find(id);
-        customerDAO.update(customer);
-//        req.setAttribute("customer", customer);
-        RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/jsp/home.jsp");
+
+        List<Customer> customers = customerDAO.findAll();
+
+        if(req.getParameter("login") !=null && req.getParameter("login") !=""){
+            String login = req.getParameter("login");
+            customers = customerDAO.findAllByLogin(login);
+        } else {
+            customers = customerDAO.findAll();
+        }
+        req.setAttribute("AllCustomers", customers);
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/admin.jsp");
         dispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        customerDAO.update(customer);
+        this.testDAO = new TestService(connection);
+
+        String subject = req.getParameter("subject");
+        String question1 = req.getParameter("question1");
+        String question2 = req.getParameter("question2");
+        String question3 = req.getParameter("question3");
+        String time = req.getParameter("time");
+        Degree degree = Degree.valueOf(req.getParameter("degree"));
+
+        Test test = new Test(subject, question1, question2, question3, time, degree);
+        testDAO.save(test);
+        doGet(req, resp);
     }
 }

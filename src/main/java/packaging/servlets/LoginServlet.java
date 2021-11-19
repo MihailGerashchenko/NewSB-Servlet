@@ -51,15 +51,17 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.customerDAO = new CustomerService(connection);
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        this.customerDAO = new CustomerService(connection);
+
 //        List<Customer> customers = customerDAO.findAll();
 
         if(customerDAO.isExist(login, password)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", login);
+            session.getAttribute("user");
             req
                     .getServletContext()
                     .getRequestDispatcher("/home")

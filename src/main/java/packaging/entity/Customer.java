@@ -29,7 +29,14 @@ public class Customer {
         this.address = address;
     }
 
-
+    public Customer(Integer id, String login, UserRole role, String email, String phone, String address) {
+        this.id = id;
+        this.login = login;
+        this.role = role;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
 
     public Customer(Integer id, String login, String password,
                     UserRole role, String email,

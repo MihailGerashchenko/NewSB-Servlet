@@ -55,6 +55,12 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
+//        this.customerDAO = new CustomerService(connection);
+//
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Customer customer = customerDAO.find(id);
+//        req.setAttribute("customer", customer);
+
         List<Test> tests = testDAO.findAll();
 
 
@@ -66,6 +72,8 @@ public class HomeServlet extends HttpServlet {
             tests = testDAO.findAll();
         }
         req.setAttribute("AllTests", tests);
+
+
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        Optional<Customer> customer = customerDAO.find(id);
 //        req.setAttribute("customer", customer);
@@ -81,7 +89,18 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String color = req.getParameter("color");
+        this.customerDAO = new CustomerService(connection);
+
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        String email = req.getParameter("email");
+//        String phone = req.getParameter("phone");
+//        String address = req.getParameter("address");
+//
+//        Customer customer = new Customer(id, email, phone, address);
+//        customerDAO.update(customer);
+
+
+        //        String color = req.getParameter("color");
 //        Cookie colorCookie = new Cookie("color", color);
 //        resp.addCookie(colorCookie);
 

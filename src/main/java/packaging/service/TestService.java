@@ -4,7 +4,6 @@ import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
 import packaging.entity.Degree;
 import packaging.entity.Test;
-import packaging.entity.UserRole;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,8 +23,10 @@ public class TestService implements TestDAO {
     }
 
     @Override
-    public Optional<Test> find(Integer id) {
-        return Optional.empty();
+    public Customer find(Integer id) {
+
+
+        return null;
     }
 
     @Override

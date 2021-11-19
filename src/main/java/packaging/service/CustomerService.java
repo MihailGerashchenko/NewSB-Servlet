@@ -7,18 +7,20 @@ import packaging.entity.UserRole;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CustomerService implements CustomerDAO {
 
     private final String SQL_SELECT_ALL = "SELECT * from customersone";
+    private final String SQL_SELECT_BY_ID = "SELECT id FROM customersone WHERE customersone.id = ?";
     private final String sqlInsert = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES(?, ?, ?, ?, ?, ?)";
     private final String SQL_INSERT_INTO = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)";
-    private final String SQL_SELECT_BY_ID = "SELECT * FROM customersone WHERE id = ?";
+    //    private final String SQL_SELECT_BY_ID = "SELECT * FROM customersone WHERE id = ?";
     private final String SQL_UPDATE = "UPDATE customersone SET email = ?, phone = ? address = ? WHERE id = ?";
     private final String SQL_DELETE = "DELETE FROM customersone WHERE id = ?";
+    private final String SQL_SELECT_ALL_BY_LOGIN = "SELECT * FROM customersone WHERE login = ?";
 
     private Connection connection;
+    private CustomerDAO customerDAO;
 
     public CustomerService(Connection connection) {
         this.connection = connection;
@@ -26,14 +28,13 @@ public class CustomerService implements CustomerDAO {
 
 
     @Override
-    public Optional<Customer> find(Integer id) {
+    public Customer find(Integer id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_BY_ID);
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-
                 String login = resultSet.getString("login");
                 String password = resultSet.getString("password");
                 UserRole role = UserRole.valueOf(resultSet.getString("role"));
@@ -41,9 +42,9 @@ public class CustomerService implements CustomerDAO {
                 String phone = resultSet.getString("phone");
                 String address = resultSet.getString("address");
 
-                return Optional.of(new Customer(id, login, password, role, email, phone, address));
+                return new Customer(id, login, password, role, email, phone, address);
             }
-            return Optional.empty();
+            return null;
         } catch (SQLException e) {
             throw new IllegalStateException();
         }
@@ -69,6 +70,9 @@ public class CustomerService implements CustomerDAO {
 
     @Override
     public boolean update(Customer model) {
+        this.customerDAO = new CustomerService(connection);
+        Customer customer = customerDAO.find(model.getId());
+
         try {
             PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
             ps.setString(1, model.getEmail());
@@ -126,6 +130,30 @@ public class CustomerService implements CustomerDAO {
 
     @Override
     public List<Customer> findAllByLogin(String login) {
+        try {
+            List<Customer> customers = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_BY_LOGIN);
+            statement.setString(1, login);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
+                String log = resultSet.getString("login");
+                UserRole role = UserRole.valueOf(resultSet.getString("role"));
+                String email = resultSet.getString("email");
+                String phone = resultSet.getString("phone");
+                String address = resultSet.getString("address");
+
+
+                if (log.equals(login)) {
+                    Customer customer = new Customer(id, log, role, email, phone, address);
+                    customers.add(customer);
+                }
+            }
+            return customers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

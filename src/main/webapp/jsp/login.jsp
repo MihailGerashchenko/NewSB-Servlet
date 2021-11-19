@@ -19,8 +19,9 @@
             &nbsp;|&nbsp;
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/login?lang=ua">Українська</a>
         </div>
-    <ul>
-    </ul>
+    <h3>Login</h3>
+<%--    <ul>--%>
+<%--    </ul>--%>
     <form method="post" action="/">
 <%--        <label for="name">User name--%>
 <%--            <input class="input-field" type="text" id="name" name="name">--%>
@@ -32,6 +33,8 @@
 <%--            <input class="input-field" type="password" id="password" name="password">--%>
 <%--        </label>--%>
         <input class="btn btn-primary" type="submit" value="Sign Up">
+    <ul>
+    </ul>
     <p><a href="/signUp"><input class="btn btn-primary" value="Register"></a></p>
     </form>
 </div>

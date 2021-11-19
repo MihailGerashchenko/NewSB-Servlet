@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Title</title>
@@ -32,35 +32,33 @@
 
 
 <div class="container">
-<%--    <h1><spring:message code="messages.yourlogin"/> ${login}, <spring:message code="messages.role"/></h1>--%>
-<%--    <c:forEach var="s" items="${roles}">--%>
-<%--        <h3><c:out value="${s}"/></h3>--%>
-<%--    </c:forEach>--%>
+    <h1>Your login is ${customer.login}, your role is</h1>
+    <c:forEach var="s" items="${customer.role}">
+        <h3><c:out value="${s}"/></h3>
+    </c:forEach>
 
-<%--    <c:if test="${admin}">--%>
-<%--        <c:url value="/admin" var="adminUrl"/>--%>
-<%--        <p><a input type="submit" class="btn btn-primary" href="${adminUrl}"><spring:message--%>
-<%--                code="messages.adminpagebutton"/></a></p>--%>
+<%--    <c:if test="${customer.role.ADMIN}">--%>
+        <c:url value="/admin" var="adminUrl"/>
+        <p><a input type="submit" class="btn btn-primary" href="${adminUrl}">Admin</a></p>
 <%--    </c:if>--%>
 
-<%--    <c:url value="/update" var="updateUrl"/>--%>
+
     <form action="/home" method="POST">
-<%--        <form action="${updateUrl}" method="post">--%>
-<%--        <c:forEach items="${customer}" var="customer">--%>
-<%--            <input class="form-control form-group" type="text" name="email" value="${customer.email}" placeholder=>--%>
-<%--            <input class="form-control form-group" type="text" name="phone" value="${customer.phone}" placeholder=>--%>
-<%--            <input class="form-control form-group" type="text" name="address" value="${customer.address}" placeholder=>--%>
-    <input class="form-control form-group" type="text" name="email" id="email" placeholder=>
-    <input class="form-control form-group" type="text" name="phone" id="phone" placeholder=>
-    <input class="form-control form-group" type="text" name="address" id="address" placeholder=>
-            <input type="submit" class="btn btn-primary" value=>
-<%--        </c:forEach>--%>
+<%--        <c:url value="/home" var="updateUrl"/>--%>
+<%--        <form action="${updateUrl}" method="POST">--%>
+<%--        <input class="form-control form-group" type="text" id="id" name="id" placeholder="id">--%>
+        <input class="form-control form-group" type="text" id="email" name="email" value="${email}" placeholder="Email">
+        <input class="form-control form-group" type="text" id="phone" name="phone" value="${phone}" placeholder="Phone">
+        <input class="form-control form-group" type="text" id="address" name="address" value="${address}" placeholder="Address">
+        <input type="submit" class="btn btn-primary" value="Sign up">
+        <%--        </c:forEach>--%>
     </form>
 
-    <c:url value="/logout" var="logoutUrl"/>
-    <p><a input type="submit" class="btn btn-primary" href="${logoutUrl}"><spring:message
-            code="messages.logoutbutton"/></a></p>
+    <%--    <c:url value="/logout" var="logoutUrl"/>--%>
+    <%--    <p><a input type="submit" class="btn btn-primary" href="${logoutUrl}"><spring:message--%>
+    <%--            code="messages.logoutbutton"/></a></p>--%>
 </div>
+
 <div class="container-fluid" style="margin: 3px auto">
     <div class="container">
         <div style="height: auto; margin:auto 3%;text-align:center">
@@ -75,14 +73,14 @@
                 </div>
 
 
-<%--                <nav aria-label="Page navigation">--%>
-<%--                    <ul class="pagination">--%>
-<%--                        <c:forEach var="i" begin="1" end="${list.getTotalPages()}">--%>
-<%--                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>--%>
-<%--                            </li>--%>
-<%--                        </c:forEach>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
+                <%--                <nav aria-label="Page navigation">--%>
+                <%--                    <ul class="pagination">--%>
+                <%--                        <c:forEach var="i" begin="1" end="${list.getTotalPages()}">--%>
+                <%--                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>--%>
+                <%--                            </li>--%>
+                <%--                        </c:forEach>--%>
+                <%--                    </ul>--%>
+                <%--                </nav>--%>
 
             </nav>
 
