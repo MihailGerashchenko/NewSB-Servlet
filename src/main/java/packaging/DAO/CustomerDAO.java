@@ -9,4 +9,5 @@ public interface CustomerDAO extends CrudDAO<Customer>{
     List<Customer> findAllByLogin(String login);
     boolean isExist(String login, String password);
     Optional<Customer> findByLogin (String login);
+    boolean deleteCustomerByLogin(String login);
 }

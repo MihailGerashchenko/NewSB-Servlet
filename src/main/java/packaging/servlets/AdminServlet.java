@@ -68,23 +68,6 @@ public class AdminServlet extends HttpServlet {
         }
         req.setAttribute("AllCustomers", customers);
 
-//
-        String action = req.getServletPath();
-
-        try {
-            switch (action) {
-                case "/delete":
-                    deleteUser(req, resp);
-                    break;
-//                case "/update":
-//                    updateUser(req, resp);
-//                    break;
-
-            }
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
-        }
-//
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/admin.jsp");
         dispatcher.forward(req, resp);
     }
@@ -105,8 +88,11 @@ public class AdminServlet extends HttpServlet {
         Test test = new Test(subject, question1, question2, question3, time, degree);
         testDAO.save(test);
 
+        String login = req.getParameter("login");
+        customerDAO.deleteCustomerByLogin(login);
 
-        doGet(req, resp);
+        resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
+//        doGet(req, resp);
     }
 
 
@@ -123,14 +109,4 @@ public class AdminServlet extends HttpServlet {
 //        response.sendRedirect("list");
 //    }
 
-    private void deleteUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        customerDAO.delete(id);
-        doGet(request, response);
-//        response.sendRedirect("list");
-
-    }
-
-    //
 }

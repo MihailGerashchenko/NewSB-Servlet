@@ -62,7 +62,11 @@
                     <tr>
                             <%--                    <th scope="row"><input type="checkbox" name="toDelete" value="${user.id}" id="check_${user.id}">--%>
                             <%--                    </th>--%>
-                        <th><a href="/delete=<c:out value='${user.id}' />">Delete</a></th>
+                        <th><form method="post" action="<c:url value='/admin'/>">
+                            <input type="text" hidden name="login" value="${user.login}"/>
+                            <input type="submit" name="delete" value="delete"/>
+<%--                            <button type="button" class="btn btn-primary" id="user.login">Delete</button>--%>
+                        </form></th>
                         <td><c:out value="${user.login}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td><c:out value="${user.phone}"/></td>
@@ -103,7 +107,13 @@
 
 
             <button type="button" class="btn btn-primary" id="add_user">Add user</button>
-            <button type="button" class="btn btn-primary" id="delete_user">Delete user</button>
+
+<%--            <form method="post" action="<c:url value='/admin'/>">--%>
+<%--                <input type="text" hidden name="login" value="${user.login}"/>--%>
+<%--                <input type="submit" name="delete" value="Удалить"/>--%>
+<%--                <button type="button" class="btn btn-primary" id="user.login">Delete</button>--%>
+<%--            </form>--%>
+<%--            <button type="button" class="btn btn-primary" id="delete_user">Delete user</button>--%>
             <ul>
             </ul>
 

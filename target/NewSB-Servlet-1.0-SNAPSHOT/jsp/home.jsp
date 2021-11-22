@@ -83,13 +83,13 @@
 
 
     <%--    <form action="/updateStudent" method="POST">--%>
-    <form action="<c:url value='/updateStudent'/>" method="POST">
+    <form action="<c:url value='/home'/>" method="POST">
         <%--        <c:url value="/updateStudent" var="updateUrl"/>--%>
         <%--        <form action="${updateUrl}" method="POST">--%>
         <input class="form-control form-group" type="text" id="login" name="login" required placeholder="Login">
-        <input class="form-control form-group" type="text" id="email" name="email" required placeholder="Email">
-        <input class="form-control form-group" type="text" id="phone" name="phone" required placeholder="Phone">
-        <input class="form-control form-group" type="text" id="address" name="address" required placeholder="Address">
+        <input class="form-control form-group" type="text" id="email" name="email" required value="${email}" placeholder="Email">
+        <input class="form-control form-group" type="text" id="phone" name="phone" required value="${phone}" placeholder="Phone">
+        <input class="form-control form-group" type="text" id="address" name="address" required value="${address}" placeholder="Address">
         <%--        <input class="form-control form-group" type="number" hidden name="id" value="${requestScope.student.id}"/>--%>
         <input type="submit" class="btn btn-primary" value="Sign up">
         <%--        </c:forEach>--%>

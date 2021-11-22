@@ -42,17 +42,27 @@
     <p><a input type="submit" class="btn btn-primary" href="${adminUrl}">Admin</a></p>
     <%--    </c:if>--%>
 
-
-    <form action="/home" method="POST">
-        <%--        <c:url value="/home" var="updateUrl"/>--%>
+    <form action="<c:url value='/homeAdmin'/>" method="POST">
+        <%--        <c:url value="/updateStudent" var="updateUrl"/>--%>
         <%--        <form action="${updateUrl}" method="POST">--%>
-        <%--        <input class="form-control form-group" type="text" id="id" name="id" placeholder="id">--%>
-        <input class="form-control form-group" type="text" id="email" name="email" value="${email}" placeholder="Email">
-        <input class="form-control form-group" type="text" id="phone" name="phone" value="${phone}" placeholder="Phone">
-        <input class="form-control form-group" type="text" id="address" name="address" value="${address}" placeholder="Address">
+        <input class="form-control form-group" type="text" id="login" name="login" required placeholder="Login">
+        <input class="form-control form-group" type="text" id="email" name="email" required value="${email}" placeholder="Email">
+        <input class="form-control form-group" type="text" id="phone" name="phone" required value="${phone}" placeholder="Phone">
+        <input class="form-control form-group" type="text" id="address" name="address" required value="${address}" placeholder="Address">
+        <%--        <input class="form-control form-group" type="number" hidden name="id" value="${requestScope.student.id}"/>--%>
         <input type="submit" class="btn btn-primary" value="Sign up">
         <%--        </c:forEach>--%>
     </form>
+<%--    <form action="/home" method="POST">--%>
+<%--        &lt;%&ndash;        <c:url value="/home" var="updateUrl"/>&ndash;%&gt;--%>
+<%--        &lt;%&ndash;        <form action="${updateUrl}" method="POST">&ndash;%&gt;--%>
+<%--        &lt;%&ndash;        <input class="form-control form-group" type="text" id="id" name="id" placeholder="id">&ndash;%&gt;--%>
+<%--        <input class="form-control form-group" type="text" id="email" name="email" value="${email}" placeholder="Email">--%>
+<%--        <input class="form-control form-group" type="text" id="phone" name="phone" value="${phone}" placeholder="Phone">--%>
+<%--        <input class="form-control form-group" type="text" id="address" name="address" value="${address}" placeholder="Address">--%>
+<%--        <input type="submit" class="btn btn-primary" value="Sign up">--%>
+<%--        &lt;%&ndash;        </c:forEach>&ndash;%&gt;--%>
+<%--    </form>--%>
 
     <%--    <c:url value="/logout" var="logoutUrl"/>--%>
     <%--    <p><a input type="submit" class="btn btn-primary" href="${logoutUrl}"><spring:message--%>
@@ -71,6 +81,15 @@
                         <button class="btn btn-outline-success" type="submit"></button>
                     </form>
                 </div>
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <c:forEach var="i" begin="1" end="${itemPerPage}">
+                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </nav>
 
 
                 <%--                <nav aria-label="Page navigation">--%>

@@ -112,6 +112,14 @@ public class HomeServlet extends HttpServlet {
 //        Customer customer = new Customer(id, email, phone, address);
 //        this.customerDAO = new CustomerService(connection);
 //        customerDAO.update(customer);
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+
+        Customer customer = new Customer(login, email, phone, address);
+        customerDAO.update(customer);
+        
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

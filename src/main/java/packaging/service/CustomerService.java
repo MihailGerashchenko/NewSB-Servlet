@@ -15,9 +15,9 @@ public class CustomerService implements CustomerDAO {
     private final String SQL_SELECT_BY_ID = "SELECT id FROM customersone WHERE customersone.id = ?";
     private final String sqlInsert = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES(?, ?, ?, ?, ?, ?)";
     private final String SQL_INSERT_INTO = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)";
-    //    private final String SQL_SELECT_BY_ID = "SELECT * FROM customersone WHERE id = ?";
     private final String SQL_UPDATE = "UPDATE customersone SET email = ?, phone = ?, address = ? WHERE login = ?";
     private final String SQL_DELETE = "DELETE FROM customersone WHERE id = ?";
+    private final String SQL_DELETE_BY_LOGIN = "DELETE FROM customersone WHERE login = ?";
     private final String SQL_SELECT_ALL_BY_LOGIN = "SELECT * FROM customersone WHERE login = ?";
     private final String SQL_SELECT_BY_LOGIN = "SELECT login FROM customersone WHERE login = ?";
 
@@ -211,5 +211,19 @@ public class CustomerService implements CustomerDAO {
             e.printStackTrace();
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteCustomerByLogin(String login) {
+        try {
+            PreparedStatement ps = connection.prepareStatement(SQL_DELETE_BY_LOGIN);
+            ps.setString(1, login);
+            ps.execute();
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

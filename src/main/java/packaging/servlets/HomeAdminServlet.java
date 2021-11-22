@@ -2,6 +2,7 @@ package packaging.servlets;
 
 import packaging.DAO.CustomerDAO;
 import packaging.DAO.TestDAO;
+import packaging.entity.Customer;
 import packaging.entity.Test;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
@@ -27,6 +28,7 @@ public class HomeAdminServlet extends HttpServlet {
     private CustomerDAO customerDAO;
     private TestDAO testDAO;
     private TestService testService;
+    private static final int ITEMS_PER_PAGE = 5;
 
     @Override
     public void init() throws ServletException {
@@ -70,6 +72,9 @@ public class HomeAdminServlet extends HttpServlet {
         req.setAttribute("AllTests", tests);
 
 
+        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
+
+
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        Optional<Customer> customer = customerDAO.find(id);
 //        req.setAttribute("customer", customer);
@@ -87,6 +92,13 @@ public class HomeAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
 
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+
+        Customer customer = new Customer(login, email, phone, address);
+        customerDAO.update(customer);
 
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        String email = req.getParameter("email");
