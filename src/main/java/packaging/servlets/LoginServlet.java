@@ -2,7 +2,10 @@ package packaging.servlets;
 
 import packaging.DAO.CustomerDAO;
 import packaging.entity.Customer;
+import packaging.entity.UserRole;
+import packaging.service.BCryptService;
 import packaging.service.CustomerService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,7 +18,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @WebServlet("/")
 public class LoginServlet extends HttpServlet {
@@ -23,6 +29,12 @@ public class LoginServlet extends HttpServlet {
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
+    private static final BCryptService bcrypt = new BCryptService(10);
+    private String[] mutableHash = new String[1];
+    Function<String, Boolean> update = hash -> {
+        mutableHash[0] = hash;
+        return true;
+    };
 
     @Override
     public void init() throws ServletException {
@@ -46,6 +58,12 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String lang = req.getParameter("lang");
+        if (lang != null) {
+            req.getSession().setAttribute("lang", lang);
+            req.setAttribute("lang", lang);
+        }
         req.getServletContext().getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
     }
 
@@ -55,17 +73,31 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
+        String lang = req.getParameter("lang");
+        if (lang != null) {
+            req.getSession().setAttribute("lang", lang);
+            req.setAttribute("lang", lang);
+        }
 
-//        List<Customer> customers = customerDAO.findAll();
+        Optional<Customer> customer = customerDAO.findByLogin(login);
 
-        if(customerDAO.isExist(login, password)) {
+        if (customer.isPresent() && bcrypt.verifyAndUpdateHash(password, customer.get().getPassword(), update)) {
             HttpSession session = req.getSession();
             session.setAttribute("user", login);
             session.getAttribute("user");
-            req
-                    .getServletContext()
-                    .getRequestDispatcher("/home")
-                    .forward(req, resp);
+
+
+            if (customer.get().getRole() == UserRole.ADMIN) {
+                req
+                        .getServletContext()
+                        .getRequestDispatcher("/homeAdmin")
+                        .forward(req, resp);
+            } else {
+                req
+                        .getServletContext()
+                        .getRequestDispatcher("/home")
+                        .forward(req, resp);
+            }
         } else {
             resp.sendRedirect(req.getContextPath() + "/");
         }

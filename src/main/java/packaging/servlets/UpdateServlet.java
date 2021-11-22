@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -45,12 +46,25 @@ public class UpdateServlet extends HttpServlet {
         }
     }
 
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        Customer customer = customerDAO.find(id);
-        customerDAO.update(customer);
+
+        String lang = req.getParameter("lang");
+        if (lang != null) {
+            req.getSession().setAttribute("lang", lang);
+            req.setAttribute("lang", lang);
+        }
+
+        HttpSession session = req.getSession();
+        Customer customer = (Customer) session.getAttribute("user");
+        System.out.println(customer);
+
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Customer customer = customerDAO.find(id);
+//        customerDAO.update(customer);
 //        req.setAttribute("customer", customer);
         RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/jsp/home.jsp");
         dispatcher.forward(req, resp);
@@ -59,12 +73,16 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
+
+
 //        Integer id = Integer.parseInt(req.getParameter("id"));
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        customerDAO.update(customer);
+        String login = req.getParameter("login");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
+
+        Customer customer = new Customer(login, email, phone, address);
+        customerDAO.update(customer);
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

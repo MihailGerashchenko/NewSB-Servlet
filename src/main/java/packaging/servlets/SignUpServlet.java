@@ -3,6 +3,7 @@ package packaging.servlets;
 import packaging.DAO.CustomerDAO;
 import packaging.entity.Customer;
 import packaging.entity.UserRole;
+import packaging.service.BCryptService;
 import packaging.service.CustomerService;
 
 import javax.servlet.RequestDispatcher;
@@ -17,6 +18,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 @WebServlet("/signUp")
@@ -26,6 +28,7 @@ public class SignUpServlet extends HttpServlet {
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
+    private static final BCryptService bcrypt = new BCryptService(10);
 
 
     @Override
@@ -50,9 +53,8 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        List<User> users = usersRepository.findAll();
-//        req.setAttribute("usersFromServer", users);
         this.customerDAO = new CustomerService(connection);
+
         List<Customer> customers = customerDAO.findAll();
         req.setAttribute("allUsers", customers);
         RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/jsp/signUp.jsp");
@@ -64,13 +66,18 @@ public class SignUpServlet extends HttpServlet {
         this.customerDAO = new CustomerService(connection);
 
         String name = req.getParameter("login");
-        String password = req.getParameter("password");
+        String password = bcrypt.hash(req.getParameter("password"));
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
 
-        Customer customer = new Customer(name, password, UserRole.STUDENT, email, phone, address);
-        customerDAO.save(customer);
+        Optional<Customer> customer = customerDAO.findByLogin(name);
+        if(customer.isPresent()){
+            doGet(req, resp);
+        }
+
+        Customer customerUnique = new Customer(name, password, UserRole.STUDENT, email, phone, address);
+        customerDAO.save(customerUnique);
 
 //        try {
 //            PreparedStatement ps = connection.prepareStatement("INSERT INTO customersone (login, password, role, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)");

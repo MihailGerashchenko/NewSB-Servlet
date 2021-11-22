@@ -49,6 +49,13 @@ public class CreateTestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
+
+        String lang = req.getParameter("lang");
+        if (lang != null) {
+            req.getSession().setAttribute("lang", lang);
+            req.setAttribute("lang", lang);
+        }
+
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/createTest.jsp");
         dispatcher.forward(req, resp);
     }
@@ -56,6 +63,12 @@ public class CreateTestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
+
+        String lang = req.getParameter("lang");
+        if (lang != null) {
+            req.getSession().setAttribute("lang", lang);
+            req.setAttribute("lang", lang);
+        }
 
         String subject = req.getParameter("subject");
         String question1 = req.getParameter("question1");

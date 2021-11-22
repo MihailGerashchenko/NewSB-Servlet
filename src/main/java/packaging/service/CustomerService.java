@@ -7,6 +7,7 @@ import packaging.entity.UserRole;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerService implements CustomerDAO {
 
@@ -15,9 +16,10 @@ public class CustomerService implements CustomerDAO {
     private final String sqlInsert = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES(?, ?, ?, ?, ?, ?)";
     private final String SQL_INSERT_INTO = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)";
     //    private final String SQL_SELECT_BY_ID = "SELECT * FROM customersone WHERE id = ?";
-    private final String SQL_UPDATE = "UPDATE customersone SET email = ?, phone = ? address = ? WHERE id = ?";
+    private final String SQL_UPDATE = "UPDATE customersone SET email = ?, phone = ?, address = ? WHERE login = ?";
     private final String SQL_DELETE = "DELETE FROM customersone WHERE id = ?";
     private final String SQL_SELECT_ALL_BY_LOGIN = "SELECT * FROM customersone WHERE login = ?";
+    private final String SQL_SELECT_BY_LOGIN = "SELECT login FROM customersone WHERE login = ?";
 
     private Connection connection;
     private CustomerDAO customerDAO;
@@ -71,16 +73,18 @@ public class CustomerService implements CustomerDAO {
     @Override
     public boolean update(Customer model) {
         this.customerDAO = new CustomerService(connection);
-        Customer customer = customerDAO.find(model.getId());
+//        Optional<Customer> customer = customerDAO.findByLogin(model.getLogin());
 
         try {
             PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
+
             ps.setString(1, model.getEmail());
             ps.setString(2, model.getPhone());
             ps.setString(3, model.getAddress());
-            ps.setInt(4, model.getId());
+            ps.setString(4, model.getLogin());
+//            ps.setInt(5, model.getId());
 
-            ps.execute();
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -180,5 +184,32 @@ public class CustomerService implements CustomerDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public Optional<Customer> findByLogin(String login) {
+        try {
+            List<Customer> customers = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_BY_LOGIN);
+            statement.setString(1, login);
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("id");
+                String log = resultSet.getString("login");
+                String password = resultSet.getString("password");
+                UserRole role = UserRole.valueOf(resultSet.getString("role"));
+                String email = resultSet.getString("email");
+                String phone = resultSet.getString("phone");
+                String address = resultSet.getString("address");
+
+                if (log.equals(login)) {
+                    return Optional.of(new Customer(id, log, password, role, email, phone, address));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
     }
 }

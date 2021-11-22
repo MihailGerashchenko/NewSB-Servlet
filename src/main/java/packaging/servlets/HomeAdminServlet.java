@@ -2,33 +2,31 @@ package packaging.servlets;
 
 import packaging.DAO.CustomerDAO;
 import packaging.DAO.TestDAO;
-import packaging.entity.Customer;
 import packaging.entity.Test;
-import packaging.entity.UserRole;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
-@WebServlet("/home")
-public class HomeServlet extends HttpServlet {
+@WebServlet("/homeAdmin")
+public class HomeAdminServlet extends HttpServlet {
 
     private Connection connection;
     private CustomerService customerService;
     private CustomerDAO customerDAO;
     private TestDAO testDAO;
     private TestService testService;
-    private static final int ITEMS_PER_PAGE = 5;
 
     @Override
     public void init() throws ServletException {
@@ -54,9 +52,16 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
 
+//        this.customerDAO = new CustomerService(connection);
+//
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Customer customer = customerDAO.find(id);
+//        req.setAttribute("customer", customer);
+
         List<Test> tests = testDAO.findAll();
 
-        if(req.getParameter("subject") !=null && req.getParameter("subject") !=""){
+
+        if (req.getParameter("subject") != null && req.getParameter("subject") != "") {
             String subject = req.getParameter("subject");
             tests = testDAO.findAllBySubject(subject);
         } else {
@@ -65,24 +70,17 @@ public class HomeServlet extends HttpServlet {
         req.setAttribute("AllTests", tests);
 
 
-//        HttpSession session = req.getSession();
-//        Customer customer = (Customer) session.getAttribute("user");
-//        String login = customer.getLogin();
-//        UserRole role = customer.getRole();
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Optional<Customer> customer = customerDAO.find(id);
+//        req.setAttribute("customer", customer);
+        req.getServletContext().getRequestDispatcher("/jsp/homeAdmin.jsp").forward(req, resp);
+//        Integer id = Integer.parseInt(req.getParameter("id"));
+//        Optional<Customer> customer = customerDAO.find(id);
+//        RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/jsp/home.jsp");
+//        req.setAttribute("customer", customer);
+//        dispatcher.forward(req, resp);
 
-////        Optional<Customer> customerOne = customerDAO.findByLogin(login);
-//        req.setAttribute("login", login);
-//        req.setAttribute("role", role);
 
-        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
-//        int currentPage = 1;
-//        int recordsOnPage = 5;
-//
-//        if (req.getParameter("page") != null) {
-//            currentPage = Integer.parseInt(req.getParameter("page"));
-//        }
-
-        req.getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
     }
 
     @Override
@@ -112,6 +110,7 @@ public class HomeServlet extends HttpServlet {
 //        Customer customer = new Customer(id, email, phone, address);
 //        this.customerDAO = new CustomerService(connection);
 //        customerDAO.update(customer);
-        resp.sendRedirect(req.getContextPath() + "/home");
+        resp.sendRedirect(req.getContextPath() + "/homeAdmin");
     }
 }
+

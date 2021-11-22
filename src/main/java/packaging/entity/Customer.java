@@ -14,7 +14,7 @@ public class Customer {
     private String phone;
     private String address;
 
-    public Customer() {
+    public Customer(String email, String phone, String address) {
     }
 
     public Customer(String login, String password) {
@@ -55,6 +55,13 @@ public class Customer {
         this.login = login;
         this.password = password;
         this.role = role;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public Customer(String login, String email, String phone, String address) {
+        this.login = login;
         this.email = email;
         this.phone = phone;
         this.address = address;

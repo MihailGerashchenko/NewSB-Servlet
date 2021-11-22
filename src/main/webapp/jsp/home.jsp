@@ -14,6 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 
@@ -32,27 +37,73 @@
 
 
 <div class="container">
-    <h1>Your login is ${customer.login}, your role is</h1>
-    <c:forEach var="s" items="${customer.role}">
-        <h3><c:out value="${s}"/></h3>
-    </c:forEach>
-
-<%--    <c:if test="${customer.role.ADMIN}">--%>
-        <c:url value="/admin" var="adminUrl"/>
-        <p><a input type="submit" class="btn btn-primary" href="${adminUrl}">Admin</a></p>
-<%--    </c:if>--%>
+    <h1>Your login is ${login}, your role is ${role}</h1>
+    <%--    <c:forEach var="s" items="${role}">--%>
+    <%--        <h3><c:out value="${s}"/></h3>--%>
+    <%--    </c:forEach>--%>
 
 
-    <form action="/home" method="POST">
-<%--        <c:url value="/home" var="updateUrl"/>--%>
-<%--        <form action="${updateUrl}" method="POST">--%>
-<%--        <input class="form-control form-group" type="text" id="id" name="id" placeholder="id">--%>
-        <input class="form-control form-group" type="text" id="email" name="email" value="${email}" placeholder="Email">
-        <input class="form-control form-group" type="text" id="phone" name="phone" value="${phone}" placeholder="Phone">
-        <input class="form-control form-group" type="text" id="address" name="address" value="${address}" placeholder="Address">
+    <%--    <thead>--%>
+    <%--<c:forEach var="user" items="${AllCustomers}">--%>
+    <%--    <tr>--%>
+    <%--        <th scope="row"><input type="checkbox" name="toDelete" value="${user.id}" id="check_${user.id}">--%>
+    <%--        <h1>Your login is <c:out value="${user.login}"/>, your role is</h1>--%>
+    <%--        <th><c:out value="${user.role}"/></th>--%>
+    <%--    </tr>--%>
+    <%--</c:forEach>--%>
+
+    <%--    </thead>--%>
+    <%--    <c:forEach var="user" items="${AllCustomers}">--%>
+    <%--        <tr>--%>
+    <%--            <th scope="row"><input type="checkbox" name="toDelete" value="${user.id}" id="check_${user.id}">--%>
+    <%--            </th>--%>
+    <%--            <td>Your login is <c:out value="${user.login}"/></td>--%>
+    <%--            <td>your role is <c:out value="${user.role}"/></td>--%>
+    <%--        </tr>--%>
+    <%--        &lt;%&ndash;                </c:forEach>&ndash;%&gt;--%>
+    <%--    </c:forEach>--%>
+
+    <%--    <table>--%>
+    <%--        <tr>--%>
+    <%--            <th>Your login is</th>--%>
+    <%--            <th>your role is</th>--%>
+    <%--        </tr>--%>
+    <%--        <c:forEach items="${allUsers}" var="user">--%>
+    <%--            <tr>--%>
+    <%--                <td>${user.login}</td>--%>
+    <%--                <td>${user.role}</td>--%>
+    <%--            </tr>--%>
+    <%--        </c:forEach>--%>
+    <%--    </table>--%>
+
+    <%--    <c:if test="${customer.role.ADMIN}">--%>
+    <%--        <c:url value="/admin" var="adminUrl"/>--%>
+    <%--        <p><a input type="submit" class="btn btn-primary" href="${adminUrl}">Admin</a></p>--%>
+    <%--    </c:if>--%>
+
+
+    <%--    <form action="/updateStudent" method="POST">--%>
+    <form action="<c:url value='/updateStudent'/>" method="POST">
+        <%--        <c:url value="/updateStudent" var="updateUrl"/>--%>
+        <%--        <form action="${updateUrl}" method="POST">--%>
+        <input class="form-control form-group" type="text" id="login" name="login" required placeholder="Login">
+        <input class="form-control form-group" type="text" id="email" name="email" required placeholder="Email">
+        <input class="form-control form-group" type="text" id="phone" name="phone" required placeholder="Phone">
+        <input class="form-control form-group" type="text" id="address" name="address" required placeholder="Address">
+        <%--        <input class="form-control form-group" type="number" hidden name="id" value="${requestScope.student.id}"/>--%>
         <input type="submit" class="btn btn-primary" value="Sign up">
         <%--        </c:forEach>--%>
     </form>
+    <%--    <form action="<c:url value='/updateStudent'/>" method="GET">--%>
+    <%--        &lt;%&ndash;        <c:url value="/updateStudent" var="updateUrl"/>&ndash;%&gt;--%>
+    <%--        &lt;%&ndash;        <form action="${updateUrl}" method="POST">&ndash;%&gt;--%>
+    <%--        <input class="form-control form-group" type="text" id="email" name="email" required placeholder="Email">--%>
+    <%--        <input class="form-control form-group" type="text" id="phone" name="phone" required placeholder="Phone">--%>
+    <%--        <input class="form-control form-group" type="text" id="address" name="address" required placeholder="Address">--%>
+    <%--        <input class="form-control form-group" type="number" hidden name="id" value="${requestScope.student.id}"/>--%>
+    <%--        <input type="submit" class="btn btn-primary" value="Sign up">--%>
+    <%--        &lt;%&ndash;        </c:forEach>&ndash;%&gt;--%>
+    <%--    </form>--%>
 
     <%--    <c:url value="/logout" var="logoutUrl"/>--%>
     <%--    <p><a input type="submit" class="btn btn-primary" href="${logoutUrl}"><spring:message--%>
@@ -73,14 +124,14 @@
                 </div>
 
 
-                <%--                <nav aria-label="Page navigation">--%>
-                <%--                    <ul class="pagination">--%>
-                <%--                        <c:forEach var="i" begin="1" end="${list.getTotalPages()}">--%>
-                <%--                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>--%>
-                <%--                            </li>--%>
-                <%--                        </c:forEach>--%>
-                <%--                    </ul>--%>
-                <%--                </nav>--%>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <c:forEach var="i" begin="1" end="${itemPerPage}">
+                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </nav>
 
             </nav>
 
