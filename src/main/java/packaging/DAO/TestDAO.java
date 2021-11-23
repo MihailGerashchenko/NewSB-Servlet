@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface TestDAO extends CrudDAO<Test> {
     List<Test> findAllBySubject(String subject);
+    List<Test> getAllTestsPaging(int offset, int recordsOnPage);
+
 }

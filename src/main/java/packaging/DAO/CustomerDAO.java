@@ -5,9 +5,14 @@ import packaging.entity.Customer;
 import java.util.List;
 import java.util.Optional;
 
-public interface CustomerDAO extends CrudDAO<Customer>{
+public interface CustomerDAO extends CrudDAO<Customer> {
     List<Customer> findAllByLogin(String login);
+
     boolean isExist(String login, String password);
-    Optional<Customer> findByLogin (String login);
+
+    Optional<Customer> findByLogin(String login);
+
     boolean deleteCustomerByLogin(String login);
+
+    List<Customer> list(int start, int count);
 }

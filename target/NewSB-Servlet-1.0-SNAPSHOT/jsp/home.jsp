@@ -124,14 +124,31 @@
                 </div>
 
 
+<%--                <nav aria-label="Page navigation">--%>
+<%--                    <ul class="pagination">--%>
+<%--                        <c:forEach var="i" begin="1" end="${itemPerPage}">--%>
+<%--                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>--%>
+<%--                            </li>--%>
+<%--                        </c:forEach>--%>
+<%--                    </ul>--%>
+<%--                </nav>--%>
+
+<%--                <nav aria-label="Page navigation">--%>
+<%--                    <ul class="pagination">--%>
+<%--                        <c:forEach var="i" begin="1" end="${pages}">--%>
+<%--                            <li><a href="/?page=<c:out value="${i - 1}"/>"><c:out value="${i}"/></a></li>--%>
+<%--                        </c:forEach>--%>
+<%--                    </ul>--%>
+<%--                </nav>--%>
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
-                        <c:forEach var="i" begin="1" end="${itemPerPage}">
-                            <li><a href="/?page=<c:out value="${i - 1}"/>&size=${itemPerPage}"><c:out value="${i}"/></a>
+                        <c:forEach var="i" begin="1" end="${numberOfPages}">
+                            <li><a href="/home?page=<c:out value="${i}"/>&size=${6}"><c:out value="${i}"/></a>
                             </li>
                         </c:forEach>
                     </ul>
                 </nav>
+
 
             </nav>
 

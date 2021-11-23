@@ -4,6 +4,7 @@ import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
 import packaging.entity.Degree;
 import packaging.entity.Test;
+import packaging.mapper.TestMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class TestService implements TestDAO {
     private final String SQL_SELECT_ALL = "SELECT * FROM testsone";
     private final String SQL_SELECT_ALL_BY_SUBJECT = "SELECT * FROM testsone WHERE subject = ?";
     private final String SQL_INSERT_INTO = "INSERT INTO testsone (subject, question1, question2, question3, time, degree, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+//    private final String SQL_COUNT = "SELECT COUNT(c) FROM testsone c";
+
 
     private Connection connection;
 
@@ -57,6 +60,22 @@ public class TestService implements TestDAO {
     @Override
     public boolean delete(Integer id) {
         return false;
+    }
+
+    @Override
+    public Integer count() {
+        try {
+            Integer num = 0;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL);
+            while (resultSet.next()) {
+                num++;
+            }
+            return num;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -111,5 +130,30 @@ public class TestService implements TestDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Test> getAllTestsPaging(int offset, int recordsOnPage) {
+        List<Test> list = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder();
+//        String query = SQL_SELECT_ALL;
+        queryBuilder.append(SQL_SELECT_ALL);
+//        if (!Sorting.DEFAULT.equals(sorting)) {
+            queryBuilder.append(" ORDER BY ").append("id ASC");
+//        }
+//        String a = "SELECT * FROM testsone ORDER BY id ASC";
+        queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);
+//        queryBuilder.append(" LIMIT ").append(recordsOnPage);
+        try (PreparedStatement ps = connection.prepareCall(queryBuilder.toString());
+             ResultSet rs = ps.executeQuery();) {
+            TestMapper mapper = new TestMapper();
+            while (rs.next()) {
+                list.add(mapper.extractFromResultSet(rs));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

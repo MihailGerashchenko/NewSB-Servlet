@@ -20,8 +20,10 @@ public class CustomerService implements CustomerDAO {
     private final String SQL_DELETE_BY_LOGIN = "DELETE FROM customersone WHERE login = ?";
     private final String SQL_SELECT_ALL_BY_LOGIN = "SELECT * FROM customersone WHERE login = ?";
     private final String SQL_SELECT_BY_LOGIN = "SELECT login FROM customersone WHERE login = ?";
+    private final String SQL_COUNT = "SELECT COUNT(c) FROM customersone c";
 
     private Connection connection;
+
     private CustomerDAO customerDAO;
 
     public CustomerService(Connection connection) {
@@ -105,6 +107,22 @@ public class CustomerService implements CustomerDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public Integer count() {
+        try {
+            Integer num = 0;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(SQL_COUNT);
+            while (resultSet.next()) {
+                num++;
+            }
+            return num;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -225,5 +243,25 @@ public class CustomerService implements CustomerDAO {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Customer> list(int start, int count) {
+//        TypedQuery<Customer> query;
+//
+//        if (group != null) {
+//            query = entityManager.createQuery("SELECT c FROM Contact c WHERE c.group = :group ORDER BY c.id DESC", Contact.class);
+//            query.setParameter("group", group);
+//        } else {
+//            query = entityManager.createQuery("SELECT c FROM Contact c ORDER BY c.id DESC", Contact.class);
+//        }
+//
+//        if (start >= 0) {
+//            query.setFirstResult(start);
+//            query.setMaxResults(count);
+//        }
+//
+//        return query.getResultList();
+        return null;
     }
 }

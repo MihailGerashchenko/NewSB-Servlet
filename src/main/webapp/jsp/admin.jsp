@@ -59,14 +59,9 @@
 
                 <%--                <c:forEach items="${customer.content}" var="user">--%>
                 <c:forEach var="user" items="${AllCustomers}">
-                    <tr>
                             <%--                    <th scope="row"><input type="checkbox" name="toDelete" value="${user.id}" id="check_${user.id}">--%>
                             <%--                    </th>--%>
-                        <th><form method="post" action="<c:url value='/admin'/>">
-                            <input type="text" hidden name="login" value="${user.login}"/>
-                            <input type="submit" name="delete" value="delete"/>
-<%--                            <button type="button" class="btn btn-primary" id="user.login">Delete</button>--%>
-                        </form></th>
+                        <th><a href="${pageContext.request.contextPath}/admin/?login=${user.login}">Delete</a></th>
                         <td><c:out value="${user.login}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td><c:out value="${user.phone}"/></td>

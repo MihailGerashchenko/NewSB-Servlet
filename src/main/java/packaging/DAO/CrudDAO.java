@@ -9,6 +9,7 @@ public interface CrudDAO<T> {
     boolean save (T model);
     boolean update (T model);
     boolean delete (Integer id);
+    Integer count();
 
     List<T> findAll();
 }

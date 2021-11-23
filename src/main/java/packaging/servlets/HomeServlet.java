@@ -28,7 +28,7 @@ public class HomeServlet extends HttpServlet {
     private CustomerDAO customerDAO;
     private TestDAO testDAO;
     private TestService testService;
-    private static final int ITEMS_PER_PAGE = 5;
+    private static final int ITEMS_PER_PAGE = 6;
 
     @Override
     public void init() throws ServletException {
@@ -53,16 +53,53 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
+//
+//        Integer page = Integer.valueOf(req.getParameter("page"));
+//        if (page < 0)
+//            page = 0;
+//        int page = 1;
+//        long totalCount = testDAO.count();
+//        if(req.getParameter("page") != null)
+//            page = Integer.parseInt(req
+//                    .getParameter("page"));
+//
+//
+//        long pageCount = (totalCount / ITEMS_PER_PAGE) +
+//                ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+        List<Test> tests;
+        int currentPage = 1;
+        int recordsOnPage = 6;
 
-        List<Test> tests = testDAO.findAll();
+        if (req.getParameter("page") != null) {
+            currentPage = Integer.parseInt(req.getParameter("page"));
+        }
+
+        tests = testDAO.getAllTestsPaging((currentPage-1) * recordsOnPage,
+                recordsOnPage);
+
+        System.out.println(tests);
+
+        int periodicalsCount = testDAO.count();
+        int numberOfPages = (int) Math.ceil(periodicalsCount * 1.0 / recordsOnPage);
+
+
+//        List<Test> tests = testDAO.findAll();
 
         if(req.getParameter("subject") !=null && req.getParameter("subject") !=""){
             String subject = req.getParameter("subject");
             tests = testDAO.findAllBySubject(subject);
         } else {
-            tests = testDAO.findAll();
+//            tests = testDAO.findAll();
         }
         req.setAttribute("AllTests", tests);
+
+        ///
+
+        req.setAttribute("numberOfPages", numberOfPages);
+        req.setAttribute("currentPage", currentPage);
+        req.setAttribute("periodicalsCount", periodicalsCount);
+
+//        req.setAttribute("pages", pageCount);
 
 
 //        HttpSession session = req.getSession();
@@ -74,7 +111,9 @@ public class HomeServlet extends HttpServlet {
 //        req.setAttribute("login", login);
 //        req.setAttribute("role", role);
 
-        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
+//        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
+
+
 //        int currentPage = 1;
 //        int recordsOnPage = 5;
 //
