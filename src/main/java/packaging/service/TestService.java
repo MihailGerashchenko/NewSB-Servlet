@@ -44,7 +44,7 @@ public class TestService implements TestDAO {
             ps.setString(6, String.valueOf(model.getDegree()));
             ps.setString(7, String.valueOf(model.getCustomer()));
 
-            ps.execute();
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();

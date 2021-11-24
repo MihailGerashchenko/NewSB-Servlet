@@ -33,7 +33,7 @@
                     <input class="form-control me-2" type="text" placeholder="Search"
                            aria-label="<fmt:message key="messages.searchbylogin"/>"
                            name="login" id="login">
-                    <button class="btn btn-outline-success" type="submit"></button>
+                    <button class="btn btn-outline-success" type="submit"><fmt:message key="messages.buttonsearch"/></button>
                 </form>
             </div>
 

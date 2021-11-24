@@ -17,14 +17,21 @@
 
 <div class="container">
     <form action="/createTest" method="post">
-        <h3>Create test</h3>
+        <h3><fmt:message key="messages.testcreation"/></h3>
 
-        <input class="form-control form-group" type="text" id="subject" name="subject" placeholder="<fmt:message key="messages.subject"/>">
-        <input class="form-control form-group" type="text" id="question1" name="question1" placeholder="<fmt:message key="messages.question1"/>">
-        <input class="form-control form-group" type="text" id="question2" name="question2" placeholder="<fmt:message key="messages.question2"/>">
-        <input class="form-control form-group" type="text" id="question3" name="question3" placeholder="<fmt:message key="messages.question3"/>">
-        <input class="form-control form-group" type="text" id="time" name="time" placeholder="<fmt:message key="messages.time"/>">
-        <input class="form-control form-group" type="text" id="degree" name="degree" placeholder="<fmt:message key="messages.degree"/>">
+        <input class="form-control form-group" type="text" id="subject" name="subject" required placeholder="<fmt:message key="messages.subject"/>">
+        <input class="form-control form-group" type="text" id="question1" name="question1" required placeholder="<fmt:message key="messages.question1"/>">
+        <input class="form-control form-group" type="text" id="question2" name="question2" required placeholder="<fmt:message key="messages.question2"/>">
+        <input class="form-control form-group" type="text" id="question3" name="question3" required placeholder="<fmt:message key="messages.question3"/>">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+            <fmt:message key="messages.timeProposal"/>
+        </small>
+        <input class="form-control form-group" type="text" id="time" name="time"
+               aria-describedby="passwordHelpBlock" required placeholder="<fmt:message key="messages.time"/>">
+<%--        <input class="form-control form-group" type="text" id="time" name="time" required placeholder="<fmt:message key="messages.time"/>">--%>
+        <input class="form-control form-group" type="text" id="degree" name="degree" aria-describedby="passwordHelp"
+               pattern="[ABCD]" required
+               placeholder="<fmt:message key="messages.degree"/>">
         <input type="submit" class="btn btn-primary" value="<fmt:message key="messages.add"/>">
     </form>
 </div>

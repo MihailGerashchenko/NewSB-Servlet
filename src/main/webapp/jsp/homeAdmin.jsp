@@ -43,7 +43,7 @@
                     <form method="get" action="/homeAdmin" class="d-flex">
                         <input class="form-control me-2" type="text" placeholder="<fmt:message key="messages.searchbysubject"/>" aria-label="Search"
                                name="subject" id="subject">
-                        <button class="btn btn-outline-success" type="submit"></button>
+                        <button class="btn btn-outline-success" type="submit"><fmt:message key="messages.buttonsearch"/></button>
                     </form>
                 </div>
 
