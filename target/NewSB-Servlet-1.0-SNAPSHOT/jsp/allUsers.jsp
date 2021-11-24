@@ -1,13 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lenovo
-  Date: 16.11.2021
-  Time: 23:09
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-<html>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<%@ page session="true" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
+
+<html lang="${sessionScope.lang}">
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -34,4 +34,5 @@
     </c:forEach>
 </table>
 </body>
+
 </html>

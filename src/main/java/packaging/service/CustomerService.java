@@ -255,7 +255,7 @@ public class CustomerService implements CustomerDAO {
 //        String query = SQL_SELECT_ALL;
         queryBuilder.append(SQL_SELECT_ALL);
 //        if (!Sorting.DEFAULT.equals(sorting)) {
-        queryBuilder.append(" ORDER BY ").append("id ASC");
+        queryBuilder.append(" ORDER BY ").append("login ASC");
 //        }
 //        String a = "SELECT * FROM testsone ORDER BY id ASC";
         queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);

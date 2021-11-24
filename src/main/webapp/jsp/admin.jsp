@@ -52,38 +52,55 @@
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-                    <th>Delete</th>
+<%--                    <th>Delete</th>--%>
                     <th><fmt:message key="messages.customerjust"/></th>
                     <th><fmt:message key="messages.addemail"/></th>
                     <th><fmt:message key="messages.addphone"/></th>
                     <th><fmt:message key="messages.addaddress"/></th>
-                    <th><fmt:message key="messages.rolejust"/></th>
+                    <th><fmt:message key="messages.delete"/></th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="user" items="${AllCustomers}">
-                    <td><a class="btn btn-primary" id="${user.id}"
-                           onclick="deleteRequest(id)">
-                        Delete
-                    </a></td>
+
                     <td><c:out value="${user.login}"/></td>
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.phone}"/></td>
                     <td><c:out value="${user.address}"/></td>
-                    <td><c:out value="${user.role}"/></td>
+<%--                    <td><c:out value="${user.role}"/></td>--%>
+                    <td><a class="btn btn-primary" id="${user.id}"
+                           onclick="deleteRequest(id)">
+                        Delete
+                    </a></td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
 
+<%--            <button type="button" class="btn btn-primary" id="add_user"><fmt:message--%>
+<%--                    key="messages.registration"/></button>--%>
+<%--            <p><a type="submit" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></a></p>--%>
+<%--            <c:url value="/logout" var="logoutUrl"/>--%>
+<%--            <p><a type="submit" class="btn btn-primary" a href="${logoutUrl}"><fmt:message--%>
+<%--                    key="messages.logoutbutton"/></a></p>--%>
+<%--            <p><a href="/createTest"><input class="btn btn-primary" value=<fmt:message--%>
+<%--                    key="messages.testcreation"/>></a></p>--%>
+
             <button type="button" class="btn btn-primary" id="add_user"><fmt:message
                     key="messages.registration"/></button>
-            <p><a type="submit" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></a></p>
-            <c:url value="/logout" var="logoutUrl"/>
-            <p><a type="submit" class="btn btn-primary" a href="${logoutUrl}"><fmt:message
-                    key="messages.logoutbutton"/></a></p>
+            <ul>
+            </ul>
             <p><a href="/createTest"><input class="btn btn-primary" value=<fmt:message
                     key="messages.testcreation"/>></a></p>
+
+            <button type="button" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></button>
+<%--            <button type="button" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></button>--%>
+            <ul>
+            </ul>
+            <c:url value="/logout" var="logoutUrl"/>
+            <p><a button="button" class="btn btn-primary" a href="${logoutUrl}"><fmt:message
+                    key="messages.logoutbutton"/></a></p>
+
         </div>
     </div>
 </div>

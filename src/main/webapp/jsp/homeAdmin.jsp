@@ -18,20 +18,13 @@
 <body>
 
 <div class="container">
-
-<%--    <h1>Your login is ${customer.login}, your role is</h1>--%>
-<%--    <c:forEach var="s" items="${customer.role}">--%>
-<%--        <h3><c:out value="${s}"/></h3>--%>
-<%--    </c:forEach>--%>
-
-    <%--    <c:if test="${customer.role.ADMIN}">--%>
+    <h1><fmt:message key="messages.yourlogin"/> ${login}, <fmt:message key="messages.role"/> ${role}</h1>
     <c:url value="/admin" var="adminUrl"/>
     <p><a input type="submit" class="btn btn-primary" href="${adminUrl}"><fmt:message key="messages.adminpage"/></a></p>
 
     <form action="<c:url value='/homeAdmin'/>" method="POST">
 
-        <input class="form-control form-group" type="text" id="login" name="login" required placeholder="<fmt:message key="messages.login"/>">
-        <input class="form-control form-group" type="text" id="email" name="email" required value="${email}" placeholder="<fmt:message key="messages.addpassword"/>">
+        <input class="form-control form-group" type="text" id="email" name="email" required value="${email}" placeholder="<fmt:message key="messages.addemail"/>">
         <input class="form-control form-group" type="text" id="phone" name="phone" required value="${phone}" placeholder="<fmt:message key="messages.addphone"/>">
         <input class="form-control form-group" type="text" id="address" name="address" required value="${address}" placeholder="<fmt:message key="messages.addaddress"/>">
         <input type="submit" class="btn btn-primary" value="<fmt:message key="messages.update"/>">

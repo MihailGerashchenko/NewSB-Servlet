@@ -57,10 +57,10 @@ public class UpdateServlet extends HttpServlet {
             req.getSession().setAttribute("lang", lang);
             req.setAttribute("lang", lang);
         }
-
-        HttpSession session = req.getSession();
-        Customer customer = (Customer) session.getAttribute("user");
-        System.out.println(customer);
+//
+//        HttpSession session = req.getSession();
+//        Customer customer = (Customer) session.getAttribute("user");
+//        System.out.println(customer);
 
 //        Integer id = Integer.parseInt(req.getParameter("id"));
 //        Customer customer = customerDAO.find(id);

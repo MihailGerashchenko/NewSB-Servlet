@@ -139,7 +139,7 @@ public class TestService implements TestDAO {
 //        String query = SQL_SELECT_ALL;
         queryBuilder.append(SQL_SELECT_ALL);
 //        if (!Sorting.DEFAULT.equals(sorting)) {
-        queryBuilder.append(" ORDER BY ").append("id ASC");
+        queryBuilder.append(" ORDER BY ").append("subject ASC, degree DESC");
 //        }
 //        String a = "SELECT * FROM testsone ORDER BY id ASC";
         queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);

@@ -19,12 +19,14 @@
 
     <h3><fmt:message key="messages.registration"/></h3>
 
-    <input class="form-control form-group" type="text" id="login" name="login" placeholder="<fmt:message key="messages.addlogin"/>">
+    <input class="form-control form-group" type="login" id="login" name="login" placeholder="<fmt:message key="messages.addlogin"/>">
     <input class="form-control form-group" type="password" id="password" name="password" placeholder="<fmt:message key="messages.addpassword"/>">
-    <input class="form-control form-group" type="text" id="email" name="email" placeholder="<fmt:message key="messages.addemail"/>">
-    <input class="form-control form-group" type="text" id="phone" name="phone" placeholder="<fmt:message key="messages.addphone"/>">
-    <input class="form-control form-group" type="text" id="address" name="address" placeholder="<fmt:message key="messages.addaddress"/>">
+    <input class="form-control form-group" type="email" id="email" name="email" placeholder="<fmt:message key="messages.addemail"/>">
+    <input class="form-control form-group" type="phone" id="phone" name="phone" placeholder="<fmt:message key="messages.addphone"/>">
+    <input class="form-control form-group" type="address" id="address" name="address" placeholder="<fmt:message key="messages.addaddress"/>">
     <input type="submit" class="btn btn-primary" value="<fmt:message key="messages.add"/>">
+    <ul>
+    </ul>
     <p><a type="submit" class="btn btn-primary" href="/login"><fmt:message key="messages.turnback"/></a></p>
 
 </form>

@@ -50,13 +50,7 @@ public class DeleteServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        this.customerDAO = new CustomerService(connection);
-//
-//        Integer id = Integer.valueOf(req.getParameter("delete_user"));
-//        if (id != null && !id.equals("")) {
-//            customerDAO.delete(id);
-//            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-//        }
+
         req.getServletContext().getRequestDispatcher("/jsp/admin.jsp").forward(req, resp);
     }
 
@@ -64,35 +58,6 @@ public class DeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
-//        this.testDAO = new TestService(connection);
-//
-//        String subject = req.getParameter("subject");
-//        String question1 = req.getParameter("question1");
-//        String question2 = req.getParameter("question2");
-//        String question3 = req.getParameter("question3");
-//        String time = req.getParameter("time");
-//        Degree degree = Degree.valueOf(req.getParameter("degree"));
-//
-//        Test test = new Test(subject, question1, question2, question3, time, degree);
-//        testDAO.save(test);
-
-//        String delete = req.getParameter("toDelete[]");
-//        Integer id = Integer.valueOf(req.getParameter("delete_user"));
-        Integer list = Integer.valueOf(req.getParameter("delete_user"));
-//        String dd = req.getParameter("delete_user");
-        if (list != null && !list.equals("")) {
-            customerDAO.delete(list);
-            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-        }
-
-
-//        String login = req.getParameter("login");
-//
-//        if (login != null && !login.equals("")) {
-//            customerDAO.deleteCustomerByLogin(login);
-//            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-//        }
-
         resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
 //        doGet(req, resp);
     }

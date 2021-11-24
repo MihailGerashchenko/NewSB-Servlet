@@ -4,6 +4,7 @@ import packaging.DAO.CustomerDAO;
 import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
 import packaging.entity.Test;
+import packaging.entity.UserRole;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
 
@@ -12,12 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 @WebServlet("/homeAdmin")
@@ -54,6 +57,21 @@ public class HomeAdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
 
+        HttpSession session = req.getSession();
+
+        String login = (String) session.getAttribute("user");
+        Optional<Customer> customer = customerDAO.findByLogin(login);
+        String address = customer.get().getAddress();
+        String email = customer.get().getEmail();
+        String phone = customer.get().getPhone();
+        UserRole role = customer.get().getRole();
+
+        req.setAttribute("role", role);
+        req.setAttribute("login", login);
+        req.setAttribute("email", email);
+        req.setAttribute("phone", phone);
+        req.setAttribute("address", address);
+
         List<Test> tests;
         int currentPage = 1;
         int recordsOnPage = 6;
@@ -86,13 +104,30 @@ public class HomeAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
 
-        String login = req.getParameter("login");
+        HttpSession session = req.getSession();
+        String login = (String) session.getAttribute("user");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         String address = req.getParameter("address");
 
-        Customer customer = new Customer(login, email, phone, address);
-        customerDAO.update(customer);
+        if (email == null || phone == null || address == null) {
+            Optional<Customer> customer = customerDAO.findByLogin(login);
+            String address1 = customer.get().getAddress();
+            String email1 = customer.get().getEmail();
+            String phone1 = customer.get().getPhone();
+            UserRole role = customer.get().getRole();
+            String password = customer.get().getPassword();
+            Integer id = customer.get().getId();
+            Customer customer1 = new Customer(id, login, password, role, email1, phone1, address1);
+            customerDAO.update(customer1);
+        } else {
+            Optional<Customer> customer = customerDAO.findByLogin(login);
+            UserRole role = customer.get().getRole();
+            String password = customer.get().getPassword();
+            Integer id = customer.get().getId();
+            Customer customer1 = new Customer(id, login, password, role, email, phone, address);
+            customerDAO.update(customer1);
+        }
 
         resp.sendRedirect(req.getContextPath() + "/homeAdmin");
     }
