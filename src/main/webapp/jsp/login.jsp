@@ -1,22 +1,16 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page isELIgnored="false" %>
+<%@ page session="true" %>
 
-<%--<%@ page isELIgnored="false"%>--%>
-<%--<%@ page import="java.util.*, java.text.*" %>--%>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 
-<%--<fmt:setLocale value="${param.lang}" />--%>
-<%--<fmt:setBundle basename="messages"/>--%>
-
-<c:set var="language" value="${not empty param.lang ? param.lang : not empty lang ? lang : pageContext.request.locale}" scope="session" />
-<fmt:setLocale value="${lang}" />
-<fmt:setBundle basename="messages" />
-
-<html lang="${language}">
+<html lang="${sessionScope.lang}">
 
 <head>
-    <title><fmt:message key="login.form.signin"/></title>
+    <title><fmt:message key="messages.login1"/></title>
     <ul>
     </ul>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
@@ -26,7 +20,6 @@
 <body>
 <div class="container">
 
-<%--    <div class="container">--%>
         <div>
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/login?lang=en">English</a>
             &nbsp;|&nbsp;
@@ -34,23 +27,15 @@
             &nbsp;|&nbsp;
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/login?lang=ua">Українська</a>
         </div>
-    <h3>Login</h3>
-<%--    <ul>--%>
-<%--    </ul>--%>
-    <form method="post" action="/">
-<%--        <label for="name">User name--%>
-<%--            <input class="input-field" type="text" id="name" name="name">--%>
-<%--        </label>--%>
-        <input class="form-control form-group" type="text" id="login" name="login" placeholder="<fmt:message key="login.username"/>">
-    <input class="form-control form-group" type="password" id="password" name="password" placeholder="<fmt:message key="login.password"/>">
+    <h3><fmt:message key="messages.login"/></h3>
 
-<%--        <label for="password">Password--%>
-<%--            <input class="input-field" type="password" id="password" name="password">--%>
-<%--        </label>--%>
-        <input class="btn btn-primary" type="submit" value="<fmt:message key="login.form.signin"/>">
+    <form method="post" action="/">
+        <input class="form-control form-group" type="text" id="login" name="login" placeholder="<fmt:message key="messages.login"/>">
+    <input class="form-control form-group" type="password" id="password" name="password" placeholder="<fmt:message key="messages.password"/>">
+        <input class="btn btn-primary" type="submit" value="<fmt:message key="messages.login1"/>">
     <ul>
     </ul>
-    <p><a href="/signUp"><input class="btn btn-primary" value="Register"></a></p>
+    <p><a href="/signUp"><input class="btn btn-primary" value="<fmt:message key="messages.registration"/>"></a></p>
     </form>
 </div>
 </body>

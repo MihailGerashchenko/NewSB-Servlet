@@ -1,14 +1,11 @@
 package packaging.servlets;
 
+
 import packaging.DAO.CustomerDAO;
 import packaging.DAO.TestDAO;
-import packaging.entity.Customer;
-import packaging.entity.Degree;
-import packaging.entity.Test;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,12 +16,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 
-
-@WebServlet("/admin")
-public class AdminServlet extends HttpServlet {
+@WebServlet("/delete")
+public class DeleteServlet extends HttpServlet {
 
     private Connection connection;
     private CustomerService customerService;
@@ -55,30 +50,13 @@ public class AdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.customerDAO = new CustomerService(connection);
-
-        List<Customer> customers;
-        int currentPage = 1;
-        int recordsOnPage = 6;
-
-        if (req.getParameter("page") != null) {
-            currentPage = Integer.parseInt(req.getParameter("page"));
-        }
-
-        customers = customerDAO.getAllCustomersPaging((currentPage - 1) * recordsOnPage, recordsOnPage);
-
-        int periodicalsCount = customerDAO.count();
-        int numberOfPages = (int) Math.ceil(periodicalsCount * 1.0 / recordsOnPage);
-
-        if (req.getParameter("login") != null && req.getParameter("login") != "") {
-            String login = req.getParameter("login");
-            customers = customerDAO.findAllByLogin(login);
-        } else {
-//            customers = customerDAO.findAll();
-        }
-        req.setAttribute("AllCustomers", customers);
-        req.setAttribute("numberOfPages", numberOfPages);
-
+//        this.customerDAO = new CustomerService(connection);
+//
+//        Integer id = Integer.valueOf(req.getParameter("delete_user"));
+//        if (id != null && !id.equals("")) {
+//            customerDAO.delete(id);
+//            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
+//        }
         req.getServletContext().getRequestDispatcher("/jsp/admin.jsp").forward(req, resp);
     }
 
@@ -86,29 +64,36 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
-        this.testDAO = new TestService(connection);
+//        this.testDAO = new TestService(connection);
+//
+//        String subject = req.getParameter("subject");
+//        String question1 = req.getParameter("question1");
+//        String question2 = req.getParameter("question2");
+//        String question3 = req.getParameter("question3");
+//        String time = req.getParameter("time");
+//        Degree degree = Degree.valueOf(req.getParameter("degree"));
+//
+//        Test test = new Test(subject, question1, question2, question3, time, degree);
+//        testDAO.save(test);
 
-        String subject = req.getParameter("subject");
-        String question1 = req.getParameter("question1");
-        String question2 = req.getParameter("question2");
-        String question3 = req.getParameter("question3");
-        String time = req.getParameter("time");
-        Degree degree = Degree.valueOf(req.getParameter("degree"));
+//        String delete = req.getParameter("toDelete[]");
+//        Integer id = Integer.valueOf(req.getParameter("delete_user"));
+        Integer list = Integer.valueOf(req.getParameter("delete_user"));
+//        String dd = req.getParameter("delete_user");
+        if (list != null && !list.equals("")) {
+            customerDAO.delete(list);
+            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
+        }
 
-        Test test = new Test(subject, question1, question2, question3, time, degree);
-        testDAO.save(test);
+
+//        String login = req.getParameter("login");
+//
+//        if (login != null && !login.equals("")) {
+//            customerDAO.deleteCustomerByLogin(login);
+//            resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
+//        }
 
         resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
 //        doGet(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.customerDAO = new CustomerService(connection);
-
-        Integer id = Integer.valueOf(req.getParameter("id"));
-        customerDAO.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-
     }
 }

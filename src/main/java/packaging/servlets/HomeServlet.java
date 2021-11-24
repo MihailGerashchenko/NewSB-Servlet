@@ -53,19 +53,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
-//
-//        Integer page = Integer.valueOf(req.getParameter("page"));
-//        if (page < 0)
-//            page = 0;
-//        int page = 1;
-//        long totalCount = testDAO.count();
-//        if(req.getParameter("page") != null)
-//            page = Integer.parseInt(req
-//                    .getParameter("page"));
-//
-//
-//        long pageCount = (totalCount / ITEMS_PER_PAGE) +
-//                ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+
         List<Test> tests;
         int currentPage = 1;
         int recordsOnPage = 6;
@@ -76,8 +64,6 @@ public class HomeServlet extends HttpServlet {
 
         tests = testDAO.getAllTestsPaging((currentPage-1) * recordsOnPage,
                 recordsOnPage);
-
-        System.out.println(tests);
 
         int periodicalsCount = testDAO.count();
         int numberOfPages = (int) Math.ceil(periodicalsCount * 1.0 / recordsOnPage);
@@ -92,34 +78,7 @@ public class HomeServlet extends HttpServlet {
 //            tests = testDAO.findAll();
         }
         req.setAttribute("AllTests", tests);
-
-        ///
-
         req.setAttribute("numberOfPages", numberOfPages);
-        req.setAttribute("currentPage", currentPage);
-        req.setAttribute("periodicalsCount", periodicalsCount);
-
-//        req.setAttribute("pages", pageCount);
-
-
-//        HttpSession session = req.getSession();
-//        Customer customer = (Customer) session.getAttribute("user");
-//        String login = customer.getLogin();
-//        UserRole role = customer.getRole();
-
-////        Optional<Customer> customerOne = customerDAO.findByLogin(login);
-//        req.setAttribute("login", login);
-//        req.setAttribute("role", role);
-
-//        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
-
-
-//        int currentPage = 1;
-//        int recordsOnPage = 5;
-//
-//        if (req.getParameter("page") != null) {
-//            currentPage = Integer.parseInt(req.getParameter("page"));
-//        }
 
         req.getServletContext().getRequestDispatcher("/jsp/home.jsp").forward(req, resp);
     }
@@ -128,29 +87,6 @@ public class HomeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
 
-
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        customerDAO.update(customer);
-
-
-        //        String color = req.getParameter("color");
-//        Cookie colorCookie = new Cookie("color", color);
-//        resp.addCookie(colorCookie);
-
-
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//        int id = Integer.parseInt(req.getParameter("id"));
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        this.customerDAO = new CustomerService(connection);
-//        customerDAO.update(customer);
         String login = req.getParameter("login");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");

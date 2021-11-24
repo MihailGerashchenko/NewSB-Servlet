@@ -54,38 +54,32 @@ public class HomeAdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.testDAO = new TestService(connection);
 
-//        this.customerDAO = new CustomerService(connection);
-//
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        Customer customer = customerDAO.find(id);
-//        req.setAttribute("customer", customer);
+        List<Test> tests;
+        int currentPage = 1;
+        int recordsOnPage = 6;
 
-        List<Test> tests = testDAO.findAll();
+        if (req.getParameter("page") != null) {
+            currentPage = Integer.parseInt(req.getParameter("page"));
+        }
 
+        tests = testDAO.getAllTestsPaging((currentPage - 1) * recordsOnPage,
+                recordsOnPage);
+
+        int periodicalsCount = testDAO.count();
+        int numberOfPages = (int) Math.ceil(periodicalsCount * 1.0 / recordsOnPage);
+
+
+//        List<Test> tests = testDAO.findAll();
 
         if (req.getParameter("subject") != null && req.getParameter("subject") != "") {
             String subject = req.getParameter("subject");
             tests = testDAO.findAllBySubject(subject);
         } else {
-            tests = testDAO.findAll();
+//            tests = testDAO.findAll();
         }
         req.setAttribute("AllTests", tests);
-
-
-        req.setAttribute("itemPerPage", ITEMS_PER_PAGE);
-
-
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        Optional<Customer> customer = customerDAO.find(id);
-//        req.setAttribute("customer", customer);
+        req.setAttribute("numberOfPages", numberOfPages);
         req.getServletContext().getRequestDispatcher("/jsp/homeAdmin.jsp").forward(req, resp);
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        Optional<Customer> customer = customerDAO.find(id);
-//        RequestDispatcher dispatcher = req.getServletContext().getRequestDispatcher("/jsp/home.jsp");
-//        req.setAttribute("customer", customer);
-//        dispatcher.forward(req, resp);
-
-
     }
 
     @Override
@@ -100,28 +94,6 @@ public class HomeAdminServlet extends HttpServlet {
         Customer customer = new Customer(login, email, phone, address);
         customerDAO.update(customer);
 
-//        Integer id = Integer.parseInt(req.getParameter("id"));
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        customerDAO.update(customer);
-
-
-        //        String color = req.getParameter("color");
-//        Cookie colorCookie = new Cookie("color", color);
-//        resp.addCookie(colorCookie);
-
-
-//        String email = req.getParameter("email");
-//        String phone = req.getParameter("phone");
-//        String address = req.getParameter("address");
-//        int id = Integer.parseInt(req.getParameter("id"));
-//
-//        Customer customer = new Customer(id, email, phone, address);
-//        this.customerDAO = new CustomerService(connection);
-//        customerDAO.update(customer);
         resp.sendRedirect(req.getContextPath() + "/homeAdmin");
     }
 }

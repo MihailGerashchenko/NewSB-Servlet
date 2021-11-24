@@ -20,21 +20,7 @@ public class TestMapper implements ObjectMapper<Test> {
         test.setTime(rs.getString("time"));
         test.setDegree(Degree.valueOf(rs.getString("degree")));
         return test;
-
-//        Integer id = resultSet.getInt("id");
-//        String sub = resultSet.getString("subject");
-//        String question1 = resultSet.getString("question1");
-//        String question2 = resultSet.getString("question2");
-//        String question3 = resultSet.getString("question3");
-//        String time = resultSet.getString("time");
-//        Degree degree = Degree.valueOf(resultSet.getString("degree"));
-//
     }
-
-//    @Override
-//    public Test makeUnique(Map<Long, Test> cache, Test user) {
-//        return null;
-//    }
 
     @Override
     public Test makeUnique(Map<Integer, Test> cache, Test test) {

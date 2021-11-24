@@ -1,6 +1,7 @@
 package packaging.DAO;
 
 import packaging.entity.Customer;
+import packaging.entity.Test;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,7 @@ public interface CustomerDAO extends CrudDAO<Customer> {
 
     boolean deleteCustomerByLogin(String login);
 
-    List<Customer> list(int start, int count);
+    List<Customer> getAllCustomersPaging(int offset, int recordsOnPage);
+
+    void deleteUsers(List<Integer> ids);
 }

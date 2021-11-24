@@ -2,7 +2,10 @@ package packaging.service;
 
 import packaging.DAO.CustomerDAO;
 import packaging.entity.Customer;
+import packaging.entity.Test;
 import packaging.entity.UserRole;
+import packaging.mapper.CustomerMapper;
+import packaging.mapper.TestMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -114,7 +117,7 @@ public class CustomerService implements CustomerDAO {
         try {
             Integer num = 0;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_COUNT);
+            ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL);
             while (resultSet.next()) {
                 num++;
             }
@@ -246,22 +249,38 @@ public class CustomerService implements CustomerDAO {
     }
 
     @Override
-    public List<Customer> list(int start, int count) {
-//        TypedQuery<Customer> query;
-//
-//        if (group != null) {
-//            query = entityManager.createQuery("SELECT c FROM Contact c WHERE c.group = :group ORDER BY c.id DESC", Contact.class);
-//            query.setParameter("group", group);
-//        } else {
-//            query = entityManager.createQuery("SELECT c FROM Contact c ORDER BY c.id DESC", Contact.class);
+    public List<Customer> getAllCustomersPaging(int offset, int recordsOnPage) {
+        List<Customer> list = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder();
+//        String query = SQL_SELECT_ALL;
+        queryBuilder.append(SQL_SELECT_ALL);
+//        if (!Sorting.DEFAULT.equals(sorting)) {
+        queryBuilder.append(" ORDER BY ").append("id ASC");
 //        }
-//
-//        if (start >= 0) {
-//            query.setFirstResult(start);
-//            query.setMaxResults(count);
-//        }
-//
-//        return query.getResultList();
-        return null;
+//        String a = "SELECT * FROM testsone ORDER BY id ASC";
+        queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);
+//        queryBuilder.append(" LIMIT ").append(recordsOnPage);
+        try (PreparedStatement ps = connection.prepareCall(queryBuilder.toString());
+             ResultSet rs = ps.executeQuery();) {
+            CustomerMapper mapper = new CustomerMapper();
+            while (rs.next()) {
+                list.add(mapper.extractFromResultSet(rs));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteUsers(List<Integer> ids) {
+        ids.forEach(id -> {
+            Optional<Customer> user = Optional.ofNullable(customerDAO.find(id));
+            user.ifPresent(u -> {
+                customerDAO.delete(u.getId());
+            });
+        });
     }
 }
+
