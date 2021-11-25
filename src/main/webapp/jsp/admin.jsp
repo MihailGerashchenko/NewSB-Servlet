@@ -28,12 +28,12 @@
     <div class="container">
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand"></a>
+                <a class="navbar-brand"><fmt:message key="messages.searchbylogin"/></a>
                 <form method="get" action="/admin" class="d-flex">
                     <input class="form-control me-2" type="text" placeholder="Search"
-                           aria-label="<fmt:message key="messages.searchbylogin"/>"
-                           name="login" id="login">
-                    <button class="btn btn-outline-success" type="submit"><fmt:message key="messages.buttonsearch"/></button>
+                           aria-label="Search" name="login" id="login">
+                    <button class="btn btn-outline-success" type="submit"><fmt:message
+                            key="messages.buttonsearch"/></button>
                 </form>
             </div>
 
@@ -45,14 +45,12 @@
                     </c:forEach>
                 </ul>
             </nav>
-
         </nav>
 
         <div style="height: auto; margin:auto 3%;text-align:center">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                 <tr>
-<%--                    <th>Delete</th>--%>
                     <th><fmt:message key="messages.customerjust"/></th>
                     <th><fmt:message key="messages.addemail"/></th>
                     <th><fmt:message key="messages.addphone"/></th>
@@ -62,12 +60,10 @@
                 </thead>
                 <tbody>
                 <c:forEach var="user" items="${AllCustomers}">
-
                     <td><c:out value="${user.login}"/></td>
                     <td><c:out value="${user.email}"/></td>
                     <td><c:out value="${user.phone}"/></td>
                     <td><c:out value="${user.address}"/></td>
-<%--                    <td><c:out value="${user.role}"/></td>--%>
                     <td><a class="btn btn-primary" id="${user.id}"
                            onclick="deleteRequest(id)">
                         Delete
@@ -77,24 +73,15 @@
                 </tbody>
             </table>
 
-<%--            <button type="button" class="btn btn-primary" id="add_user"><fmt:message--%>
-<%--                    key="messages.registration"/></button>--%>
-<%--            <p><a type="submit" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></a></p>--%>
-<%--            <c:url value="/logout" var="logoutUrl"/>--%>
-<%--            <p><a type="submit" class="btn btn-primary" a href="${logoutUrl}"><fmt:message--%>
-<%--                    key="messages.logoutbutton"/></a></p>--%>
-<%--            <p><a href="/createTest"><input class="btn btn-primary" value=<fmt:message--%>
-<%--                    key="messages.testcreation"/>></a></p>--%>
-
             <button type="button" class="btn btn-primary" id="add_user"><fmt:message
-                    key="messages.registration"/></button>
+                    key="messages.buttonstudentcreate"/></button>
             <ul>
             </ul>
             <p><a href="/createTest"><input class="btn btn-primary" value=<fmt:message
-                    key="messages.testcreation"/>></a></p>
+                    key="messages.buttontestcreate"/>></a></p>
 
-            <button type="button" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></button>
-<%--            <button type="button" class="btn btn-primary" href="/homeAdmin"><fmt:message key="messages.turnback"/></button>--%>
+            <p><a type="submit" class="btn btn-primary" href="/homeAdmin"><fmt:message
+                    key="messages.turnback"/></a></p>
             <ul>
             </ul>
             <c:url value="/logout" var="logoutUrl"/>
@@ -116,7 +103,7 @@
             type: 'delete',
             success: function (data) {
                 console.log(data);
-                // document.location.reload();
+                document.location.reload();
             }
         });
     }

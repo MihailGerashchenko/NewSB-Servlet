@@ -18,7 +18,7 @@
 <body>
 
 <div class="container">
-    <h1><fmt:message key="messages.yourlogin"/> ${login}, <fmt:message key="messages.role"/> is ${role}</h1>
+    <h1><fmt:message key="messages.yourlogin"/> ${login}, <fmt:message key="messages.role"/> ${role}</h1>
     <c:url value="/admin" var="adminUrl"/>
     <p><a input type="submit" class="btn btn-primary" href="${adminUrl}"><fmt:message key="messages.adminpage"/></a></p>
 
@@ -39,11 +39,11 @@
         <div style="height: auto; margin:auto 3%;text-align:center">
             <nav class="navbar navbar-light bg-light">
                 <div class="container-fluid">
-                    <a class="navbar-brand"></a>
+                    <a class="navbar-brand"><fmt:message key="messages.searchbysubject"/></a>
                     <form method="get" action="/homeAdmin" class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="<fmt:message key="messages.searchbysubject"/>" aria-label="Search"
+                        <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search"
                                name="subject" id="subject">
-                        <button class="btn btn-outline-success" type="submit"></button>
+                        <button class="btn btn-outline-success" type="submit"><fmt:message key="messages.buttonsearch"/></button>
                     </form>
                 </div>
 

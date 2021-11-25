@@ -36,6 +36,7 @@ public class HomeAdminServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.customerDAO = new CustomerService(connection);
+        this.testDAO = new TestService(connection);
 
         Properties properties = new Properties();
         try {
@@ -55,6 +56,7 @@ public class HomeAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.customerDAO = new CustomerService(connection);
         this.testDAO = new TestService(connection);
 
         HttpSession session = req.getSession();
@@ -103,6 +105,7 @@ public class HomeAdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
+        this.testDAO = new TestService(connection);
 
         HttpSession session = req.getSession();
         String login = (String) session.getAttribute("user");

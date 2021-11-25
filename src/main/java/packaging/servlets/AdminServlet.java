@@ -36,6 +36,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.customerDAO = new CustomerService(connection);
+        this.testDAO = new TestService(connection);
 
         Properties properties = new Properties();
 
@@ -56,6 +57,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
+        this.testDAO = new TestService(connection);
 
         List<Customer> customers;
         int currentPage = 1;
@@ -105,6 +107,7 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         this.customerDAO = new CustomerService(connection);
+        this.testDAO = new TestService(connection);
 
         Integer id = Integer.valueOf(req.getParameter("id"));
         customerDAO.delete(id);
