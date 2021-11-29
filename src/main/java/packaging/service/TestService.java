@@ -1,5 +1,7 @@
 package packaging.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import packaging.DAO.TestDAO;
 import packaging.entity.Customer;
 import packaging.entity.Degree;
@@ -9,15 +11,14 @@ import packaging.mapper.TestMapper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TestService implements TestDAO {
+
+    private static final Logger logger = LogManager.getLogger();
 
     private final String SQL_SELECT_ALL = "SELECT * FROM testsone";
     private final String SQL_SELECT_ALL_BY_SUBJECT = "SELECT * FROM testsone WHERE subject = ?";
     private final String SQL_INSERT_INTO = "INSERT INTO testsone (subject, question1, question2, question3, time, degree, customer_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-//    private final String SQL_COUNT = "SELECT COUNT(c) FROM testsone c";
-
 
     private Connection connection;
 
@@ -27,8 +28,6 @@ public class TestService implements TestDAO {
 
     @Override
     public Customer find(Integer id) {
-
-
         return null;
     }
 
@@ -47,7 +46,7 @@ public class TestService implements TestDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Test with subject " + model.getSubject() + " was not saved into database", e);
         }
         return false;
     }
@@ -73,7 +72,7 @@ public class TestService implements TestDAO {
             }
             return num;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The count of tests was not calculated", e);
         }
         return null;
     }
@@ -98,7 +97,7 @@ public class TestService implements TestDAO {
             }
             return tests;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("All tests were not found in the database", e);
         }
         return null;
     }
@@ -127,7 +126,7 @@ public class TestService implements TestDAO {
             }
             return tests;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The test with subject " + subject + " was not found in the database", e);
         }
         return null;
     }
@@ -136,14 +135,9 @@ public class TestService implements TestDAO {
     public List<Test> getAllTestsPaging(int offset, int recordsOnPage) {
         List<Test> list = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder();
-//        String query = SQL_SELECT_ALL;
         queryBuilder.append(SQL_SELECT_ALL);
-//        if (!Sorting.DEFAULT.equals(sorting)) {
         queryBuilder.append(" ORDER BY ").append("subject ASC, degree DESC");
-//        }
-//        String a = "SELECT * FROM testsone ORDER BY id ASC";
         queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);
-//        queryBuilder.append(" LIMIT ").append(recordsOnPage);
         try (PreparedStatement ps = connection.prepareCall(queryBuilder.toString());
              ResultSet rs = ps.executeQuery();) {
             TestMapper mapper = new TestMapper();
@@ -152,7 +146,7 @@ public class TestService implements TestDAO {
             }
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("All tests paging were not found in the database", e);
             return null;
         }
     }

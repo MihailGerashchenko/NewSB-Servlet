@@ -4,7 +4,6 @@ import packaging.DAO.TestDAO;
 import packaging.entity.Degree;
 import packaging.entity.Test;
 import packaging.service.TestService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,7 +32,7 @@ public class CreateTestServlet extends HttpServlet {
         Properties properties = new Properties();
 
         try {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
+            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/db.properties")));
             String dbURL = properties.getProperty("db.url");
             String dbUserName = properties.getProperty("db.username");
             String dbPassword = properties.getProperty("db.password");

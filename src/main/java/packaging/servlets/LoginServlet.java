@@ -5,7 +5,6 @@ import packaging.entity.Customer;
 import packaging.entity.UserRole;
 import packaging.service.BCryptService;
 import packaging.service.CustomerService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +16,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @WebServlet("/")
 public class LoginServlet extends HttpServlet {
@@ -42,7 +39,7 @@ public class LoginServlet extends HttpServlet {
 
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
+            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/db.properties")));
             String dbUrl = properties.getProperty("db.url");
             String dbUsenName = properties.getProperty("db.username");
             String dbPassword = properties.getProperty("db.password");

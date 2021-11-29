@@ -7,7 +7,6 @@ import packaging.entity.Test;
 import packaging.entity.UserRole;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +30,6 @@ public class HomeAdminServlet extends HttpServlet {
     private CustomerDAO customerDAO;
     private TestDAO testDAO;
     private TestService testService;
-    private static final int ITEMS_PER_PAGE = 5;
 
     @Override
     public void init() throws ServletException {
@@ -40,7 +38,7 @@ public class HomeAdminServlet extends HttpServlet {
 
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
+            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/db.properties")));
             String dbUrl = properties.getProperty("db.url");
             String dbUsenName = properties.getProperty("db.username");
             String dbPassword = properties.getProperty("db.password");
@@ -88,14 +86,9 @@ public class HomeAdminServlet extends HttpServlet {
         int periodicalsCount = testDAO.count();
         int numberOfPages = (int) Math.ceil(periodicalsCount * 1.0 / recordsOnPage);
 
-
-//        List<Test> tests = testDAO.findAll();
-
         if (req.getParameter("subject") != null && req.getParameter("subject") != "") {
             String subject = req.getParameter("subject");
             tests = testDAO.findAllBySubject(subject);
-        } else {
-//            tests = testDAO.findAll();
         }
         req.setAttribute("AllTests", tests);
         req.setAttribute("numberOfPages", numberOfPages);

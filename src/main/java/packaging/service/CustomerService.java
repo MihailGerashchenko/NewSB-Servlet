@@ -1,11 +1,11 @@
 package packaging.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import packaging.DAO.CustomerDAO;
 import packaging.entity.Customer;
-import packaging.entity.Test;
 import packaging.entity.UserRole;
 import packaging.mapper.CustomerMapper;
-import packaging.mapper.TestMapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,16 +14,15 @@ import java.util.Optional;
 
 public class CustomerService implements CustomerDAO {
 
+    private static final Logger logger = LogManager.getLogger();
+
     private final String SQL_SELECT_ALL = "SELECT * from customersone";
     private final String SQL_SELECT_BY_ID = "SELECT id FROM customersone WHERE customersone.id = ?";
-    private final String sqlInsert = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES(?, ?, ?, ?, ?, ?)";
     private final String SQL_INSERT_INTO = "INSERT INTO customersone (login, password, role, email, phone, address) VALUES (?, ?, ?, ?, ?, ?)";
     private final String SQL_UPDATE = "UPDATE customersone SET email = ?, phone = ?, address = ? WHERE login = ?";
     private final String SQL_DELETE = "DELETE FROM customersone WHERE id = ?";
     private final String SQL_DELETE_BY_LOGIN = "DELETE FROM customersone WHERE login = ?";
     private final String SQL_SELECT_ALL_BY_LOGIN = "SELECT * FROM customersone WHERE login = ?";
-    private final String SQL_SELECT_BY_LOGIN = "SELECT login FROM customersone WHERE login = ?";
-    private final String SQL_COUNT = "SELECT COUNT(c) FROM customersone c";
 
     private Connection connection;
 
@@ -53,7 +52,9 @@ public class CustomerService implements CustomerDAO {
             }
             return null;
         } catch (SQLException e) {
+            logger.error("The student with id " + id + " was not found in database", e);
             throw new IllegalStateException();
+
         }
     }
 
@@ -70,7 +71,7 @@ public class CustomerService implements CustomerDAO {
             ps.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The student with login " + model.getLogin() + " was not saved into database", e);
         }
         return false;
     }
@@ -87,12 +88,11 @@ public class CustomerService implements CustomerDAO {
             ps.setString(2, model.getPhone());
             ps.setString(3, model.getAddress());
             ps.setString(4, model.getLogin());
-//            ps.setInt(5, model.getId());
 
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The student with login " + model.getLogin() + " was not updated in database", e);
         }
         return false;
     }
@@ -107,7 +107,7 @@ public class CustomerService implements CustomerDAO {
 
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The student with id " + id + " was not deleted from the database", e);
         }
         return false;
     }
@@ -123,7 +123,7 @@ public class CustomerService implements CustomerDAO {
             }
             return num;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The count of sudents was not calculated", e);
         }
         return null;
     }
@@ -148,7 +148,7 @@ public class CustomerService implements CustomerDAO {
             }
             return customers;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("All tests were not found in database", e);
         }
         return null;
     }
@@ -169,7 +169,6 @@ public class CustomerService implements CustomerDAO {
                 String phone = resultSet.getString("phone");
                 String address = resultSet.getString("address");
 
-
                 if (log.equals(login)) {
                     Customer customer = new Customer(id, log, role, email, phone, address);
                     customers.add(customer);
@@ -177,7 +176,7 @@ public class CustomerService implements CustomerDAO {
             }
             return customers;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The test with login " + login + "was not found in database", e);
         }
         return null;
     }
@@ -202,7 +201,7 @@ public class CustomerService implements CustomerDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The student with login " + login + " and password " + password + " does not exist", e);
         }
         return false;
     }
@@ -210,7 +209,7 @@ public class CustomerService implements CustomerDAO {
     @Override
     public Optional<Customer> findByLogin(String login) {
         try {
-            List<Customer> customers = new ArrayList<>();
+//            List<Customer> customers = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL_BY_LOGIN);
             statement.setString(1, login);
 
@@ -229,7 +228,7 @@ public class CustomerService implements CustomerDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The test with login " + login + "was not found in database", e);
         }
         return Optional.empty();
     }
@@ -243,7 +242,7 @@ public class CustomerService implements CustomerDAO {
 
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("The student with login " + login + " was not deleted from database", e);
         }
         return false;
     }
@@ -252,14 +251,9 @@ public class CustomerService implements CustomerDAO {
     public List<Customer> getAllCustomersPaging(int offset, int recordsOnPage) {
         List<Customer> list = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder();
-//        String query = SQL_SELECT_ALL;
         queryBuilder.append(SQL_SELECT_ALL);
-//        if (!Sorting.DEFAULT.equals(sorting)) {
         queryBuilder.append(" ORDER BY ").append("login ASC");
-//        }
-//        String a = "SELECT * FROM testsone ORDER BY id ASC";
         queryBuilder.append(" LIMIT ").append(recordsOnPage).append(" ").append("OFFSET ").append(offset);
-//        queryBuilder.append(" LIMIT ").append(recordsOnPage);
         try (PreparedStatement ps = connection.prepareCall(queryBuilder.toString());
              ResultSet rs = ps.executeQuery();) {
             CustomerMapper mapper = new CustomerMapper();
@@ -268,19 +262,9 @@ public class CustomerService implements CustomerDAO {
             }
             return list;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("All customers paging were not found in database", e);
             return null;
         }
-    }
-
-    @Override
-    public void deleteUsers(List<Integer> ids) {
-        ids.forEach(id -> {
-            Optional<Customer> user = Optional.ofNullable(customerDAO.find(id));
-            user.ifPresent(u -> {
-                customerDAO.delete(u.getId());
-            });
-        });
     }
 }
 

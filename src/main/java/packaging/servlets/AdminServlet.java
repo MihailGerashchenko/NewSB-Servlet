@@ -7,8 +7,6 @@ import packaging.entity.Degree;
 import packaging.entity.Test;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,7 +39,7 @@ public class AdminServlet extends HttpServlet {
         Properties properties = new Properties();
 
         try {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
+            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/db.properties")));
             String dbURL = properties.getProperty("db.url");
             String dbUserName = properties.getProperty("db.username");
             String dbPassword = properties.getProperty("db.password");
@@ -75,8 +73,6 @@ public class AdminServlet extends HttpServlet {
         if (req.getParameter("login") != null && req.getParameter("login") != "") {
             String login = req.getParameter("login");
             customers = customerDAO.findAllByLogin(login);
-        } else {
-//            customers = customerDAO.findAll();
         }
         req.setAttribute("AllCustomers", customers);
         req.setAttribute("numberOfPages", numberOfPages);
@@ -101,7 +97,6 @@ public class AdminServlet extends HttpServlet {
         testDAO.save(test);
 
         resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-//        doGet(req, resp);
     }
 
     @Override
@@ -112,6 +107,5 @@ public class AdminServlet extends HttpServlet {
         Integer id = Integer.valueOf(req.getParameter("id"));
         customerDAO.delete(id);
         resp.sendRedirect(req.getContextPath() + "/jsp/admin.jsp");
-
     }
 }

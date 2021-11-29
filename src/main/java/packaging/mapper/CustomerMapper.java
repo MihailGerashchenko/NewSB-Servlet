@@ -1,8 +1,6 @@
 package packaging.mapper;
 
 import packaging.entity.Customer;
-import packaging.entity.Degree;
-import packaging.entity.Test;
 import packaging.entity.UserRole;
 
 import java.sql.ResultSet;

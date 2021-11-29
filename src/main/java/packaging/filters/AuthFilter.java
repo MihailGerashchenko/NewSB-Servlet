@@ -26,13 +26,10 @@ public class AuthFilter implements Filter {
                     .getRequestDispatcher("/")
                     .forward(request, response);
         }
-
         filterChain.doFilter(request, response);
-
     }
 
     @Override
     public void destroy() {
-
     }
 }

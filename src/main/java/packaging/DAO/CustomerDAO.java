@@ -17,5 +17,4 @@ public interface CustomerDAO extends CrudDAO<Customer> {
 
     List<Customer> getAllCustomersPaging(int offset, int recordsOnPage);
 
-    void deleteUsers(List<Integer> ids);
 }

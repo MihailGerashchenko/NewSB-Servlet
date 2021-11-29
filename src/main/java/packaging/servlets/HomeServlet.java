@@ -7,10 +7,12 @@ import packaging.entity.Test;
 import packaging.entity.UserRole;
 import packaging.service.CustomerService;
 import packaging.service.TestService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -28,7 +30,6 @@ public class HomeServlet extends HttpServlet {
     private CustomerDAO customerDAO;
     private TestDAO testDAO;
     private TestService testService;
-    private static final int ITEMS_PER_PAGE = 6;
 
     @Override
     public void init() throws ServletException {
@@ -36,7 +37,7 @@ public class HomeServlet extends HttpServlet {
 
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/classes/db.properties")));
+            properties.load(new FileInputStream(getServletContext().getRealPath("/WEB-INF/db.properties")));
             String dbUrl = properties.getProperty("db.url");
             String dbUsenName = properties.getProperty("db.username");
             String dbPassword = properties.getProperty("db.password");
@@ -58,18 +59,17 @@ public class HomeServlet extends HttpServlet {
 
         String login = (String) session.getAttribute("user");
         Optional<Customer> customer = customerDAO.findByLogin(login);
+
         String address = customer.get().getAddress();
         String email = customer.get().getEmail();
         String phone = customer.get().getPhone();
         UserRole role = customer.get().getRole();
-
 
         req.setAttribute("role", role);
         req.setAttribute("login", login);
         req.setAttribute("email", email);
         req.setAttribute("phone", phone);
         req.setAttribute("address", address);
-
 
         List<Test> tests;
         int currentPage = 1;

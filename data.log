@@ -1,0 +1,13 @@
+2021-11-29 21:30:13.617 [http-bio-8888-exec-4] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:30:14.049 [http-bio-8888-exec-4] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:30:14.051 [http-bio-8888-exec-4] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:30:14.068 [http-bio-8888-exec-5] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:41.565 [http-bio-8888-exec-5] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:41.876 [http-bio-8888-exec-5] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:41.878 [http-bio-8888-exec-5] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:41.901 [http-bio-8888-exec-7] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:47.449 [http-bio-8888-exec-10] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:47.451 [http-bio-8888-exec-10] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 21:44:47.461 [http-bio-8888-exec-10] INFO  packaging.service.CustomerService - Student exists
+2021-11-29 22:40:04.087 [http-bio-8888-exec-10] INFO  packaging.service.CustomerService - Student updated
+2021-11-29 22:40:07.141 [http-bio-8888-exec-10] INFO  packaging.service.CustomerService - Student updated
